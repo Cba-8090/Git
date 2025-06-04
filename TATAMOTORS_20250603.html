@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Institutional Flow Analysis: TATAMOTORS</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f9f9f9;
+            }
+            .header {
+                background-color: #1a5276;
+                color: white;
+                padding: 20px;
+                border-radius: 10px 10px 0 0;
+                margin-bottom: 0;
+            }
+            .header h1 {
+                margin: 0;
+                font-size: 24px;
+            }
+            .header p {
+                margin: 5px 0 0;
+                font-size: 16px;
+                opacity: 0.9;
+            }
+            .container {
+                background-color: white;
+                padding: 20px;
+                border-radius: 0 0 10px 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                margin-top: 0;
+            }
+            .section {
+                margin-bottom: 25px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 15px;
+            }
+            .section:last-child {
+                border-bottom: none;
+            }
+            h2 {
+                color: #2874a6;
+                font-size: 20px;
+                margin-top: 25px;
+                margin-bottom: 15px;
+            }
+            .key-value {
+                display: grid;
+                grid-template-columns: 200px 1fr;
+                gap: 10px;
+                margin-bottom: 8px;
+            }
+            .key {
+                font-weight: bold;
+                color: #555;
+            }
+            .value {
+                color: #333;
+            }
+            .highlight {
+                background-color: #fdf2e9;
+                padding: 15px;
+                border-left: 4px solid #e67e22;
+                margin: 15px 0;
+            }
+            .positive {
+                color: #27ae60;
+            }
+            .negative {
+                color: #c0392b;
+            }
+            .neutral {
+                color: #7f8c8d;
+            }
+            .signal-strength {
+                display: inline-block;
+                padding: 5px 10px;
+                border-radius: 3px;
+                font-weight: bold;
+                margin-left: 10px;
+            }
+            .signal-high {
+                background-color: #27ae60;
+                color: white;
+            }
+            .signal-medium {
+                background-color: #f39c12;
+                color: white;
+            }
+            .signal-low {
+                background-color: #e74c3c;
+                color: white;
+            }
+            .conclusion {
+                background-color: #eaf2f8;
+                padding: 20px;
+                border-radius: 5px;
+                margin-top: 20px;
+            }
+            .conclusion h3 {
+                margin-top: 0;
+                color: #2874a6;
+            }
+            .footnote {
+                font-size: 12px;
+                color: #7f8c8d;
+                margin-top: 30px;
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+            }
+            .target-return-explanation {
+                font-size: 0.9em;
+                font-style: italic;
+                color: #666;
+                margin-left: 5px;
+            }
+            .positive-return {
+                color: #27ae60;
+            }
+            .negative-return {
+                color: #c0392b;
+            }
+            .neutral-return {
+                color: #7f8c8d;
+            }
+            .info-tooltip {
+                position: relative;
+                display: inline-block;
+                margin-left: 5px;
+                cursor: help;
+            }
+            .info-tooltip i {
+                color: #3498db;
+                font-size: 14px;
+            }
+            .info-tooltip .tooltip-text {
+                visibility: hidden;
+                width: 320px;
+                background-color: #34495e;
+                color: #fff;
+                text-align: left;
+                border-radius: 6px;
+                padding: 10px;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%;
+                left: 50%;
+                margin-left: -160px;
+                opacity: 0;
+                transition: opacity 0.3s;
+                font-weight: normal;
+                font-style: normal;
+                font-size: 13px;
+                line-height: 1.4;
+            }
+            .info-tooltip:hover .tooltip-text {
+                visibility: visible;
+                opacity: 0.95;
+            }
+            .target-return-summary {
+                background-color: #f8f9fa;
+                border-left: 4px solid #3498db;
+                padding: 10px 15px;
+                margin: 15px 0;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            .target-return-summary h4 {
+                margin-top: 0;
+                color: #2c3e50;
+            }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+    <body>
+        <div class="header">
+            <h1>Institutional Flow Analysis Report: TATAMOTORS</h1>
+            <p>Sector: Automobile and Auto Components | Report Date: June 03, 2025</p>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Basic Information</h2>
+                <div class="key-value">
+                    <div class="key">Stock:</div>
+                    <div class="value">TATAMOTORS (Tata Motors Ltd.)</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Sector:</div>
+                    <div class="value">Automobile and Auto Components</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Current Price:</div>
+                    <div class="value">704.3</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Signal Analysis</h2>
+                <div class="key-value">
+                    <div class="key">Primary Signal:</div>
+                    <div class="value">DII flows (momentum, 2.0 month lag)</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Confirmation Factor:</div>
+                    <div class="value">No clear confirmation</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Watch for Reversals:</div>
+                    <div class="value">No clear reversal patterns</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Correlation:</div>
+                    <div class="value">FII: negative (-0.311, 2.0 month lag); DII: positive (0.406, 2.0 month lag)</div>
+                </div>
+                <div class="highlight">
+                    <p>This stock's price movements show a <strong>momentum relationship</strong> with institutional flows, meaning price tends to move in the same direction as the flows. There is approximately a <strong>2.0 month lag</strong> between institutional activity and the corresponding price movement. Interestingly, different institutional players show opposing correlations with price movements. With a moderate FII predictive accuracy of 55.6%, these signals should be considered alongside other indicators.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Sentiment and Positioning</h2>
+                <div class="key-value">
+                    <div class="key">Remarks:</div>
+                    <div class="value neutral">NEUTRAL</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Target Return:</div>
+                    <div class="value neutral-return">
+                        nan 
+                        <div class="info-tooltip">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="tooltip-text">
+                                
+                            </span>
+                        </div>
+                        <span class="target-return-explanation"></span>
+                    </div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Time Horizon:</div>
+                    <div class="value">2.0 months (moderate confidence, inconsistent signal)</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Position Size:</div>
+                    <div class="value">50% position (reduced, low significance)</div>
+                </div>
+                <div class="highlight">
+                    <p>The current analysis shows a <strong>neutral stance</strong> on this stock, indicating conflicting signals or a transitional phase. No specific return target is provided, with the expected movement playing out over 2.0 months (moderate confidence, inconsistent signal). There is moderate confidence in this projection.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Entry/Exit Strategy</h2>
+                <div class="key-value">
+                    <div class="key">Entry Trigger:</div>
+                    <div class="value">No clear entry signal</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Current Entry Signal:</div>
+                    <div class="value neutral">No signal</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Exit Trigger:</div>
+                    <div class="value">No clear exit signal</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Current Exit Signal:</div>
+                    <div class="value neutral">No signal</div>
+                </div>
+                <div class="highlight">
+                    <p>Currently, there is <strong>no clear entry strategy</strong> for this stock. </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Enhanced Analysis</h2>
+                <div class="key-value">
+                    <div class="key">FII Accuracy:</div>
+                    <div class="value">55.6%</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">FII Leadership Score:</div>
+                    <div class="value">50.0%</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Key Pattern:</div>
+                    <div class="value">PATTERN 0: No clear pattern identified</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Trend Analysis:</div>
+                    <div class="value">Mixed trend - no clear direction</div>
+                </div>
+                <div class="key-value">
+                    <div class="key">Prediction Timeline:</div>
+                    <div class="value">1-2 months (lower confidence)</div>
+                </div>
+                <div class="highlight">
+                    <p>FII flows for this stock have historically been correct 55.6% of the time, which is <strong>below average</strong>. FII movements tend to follow rather than lead other institutions for this stock. The current institutional flow pattern doesn't clearly match any of the recognized patterns, suggesting a transitional or mixed market phase. The trend analysis indicates: <strong>Mixed trend - no clear direction</strong>. Based on the pattern and historical data, the system projects a timeline of 1-2 months (lower confidence).</p>
+                </div>
+            </div>
+
+            <div class="conclusion">
+                <h3>Comprehensive Interpretation</h3>
+                <p><strong>Enhanced Remarks:</strong> TATAMOTORS: NEUTRAL stance with FII neutral. Pattern 0 suggests transition phase. Mixed trend - no clear direction. Wait for clearer signals within 1-2 months (lower confidence). Signal strength: LOW.</p>
+                <div class="signal-strength signal-low">Signal Strength: LOW</div>
+
+                <!-- Add target return explanation -->
+                <p>No target return data is available for this stock.</p>
+
+                <p><strong>What This Means for TATAMOTORS:</strong></p>
+                <p>TATAMOTORS is currently in an <strong>ambiguous state</strong> where: </p><ul><li>Historically, DII flows have shown a <strong>momentum relationship</strong> with future price movements, with a negative correlation of -0.311.</li><li>FII flows have historically been right 55.6% of the time for TATAMOTORS, which is a moderate predictive accuracy.</li><li>Current institutional flows don't match any recognized pattern, suggesting a transitional phase where the stock is between clear market phases.</li><li><strong>Mixed trend - no clear direction</strong></li><li>The system recommends a <strong>waiting approach</strong> rather than taking action now.</li><li>The overall signal strength is <strong>LOW</strong>, indicating caution should be exercised.</li></ul><p>The most prudent approach for TATAMOTORS would be to <strong>wait for more definitive institutional behavior</strong> to emerge before making trading decisions. </p>
+            </div>
+
+            <div class="footnote">
+                <p>Report generated by Institutional Flow Analysis System on 2025-06-03 20:27:57</p>
+                <p>This report is for informational purposes only and should not be considered as financial advice. Always conduct your own research before making investment decisions.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    
