@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Market Trend Report</title>
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f8f9fa; }
+                    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+                    .header { background-color: #343a40; color: white; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+                    .section { background-color: white; border-radius: 5px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+                    .summary-item { margin-bottom: 10px; padding: 10px; background-color: #f8f9fa; border-radius: 5px; }
+                    .chart { width: 100%; max-width: 1000px; margin: 0 auto 20px auto; text-align: center; }
+                    .chart img { max-width: 100%; height: auto; border-radius: 5px; }
+                    table { width: 100%; border-collapse: collapse; }
+                    th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+                    .positive { color: #28a745; } .negative { color: #dc3545; } .neutral { color: #ffc107; }
+                    .footer { text-align: center; margin-top: 30px; color: #6c757d; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>Market News Trend Report</h1>
+                        <p>Period: 2025-05-23 to 2025-06-03 (12 days)</p>
+                        <p>Generated on: 2025-06-03 20:34:41</p>
+                    </div>
+
+                    <div class="section">
+                        <h2>Executive Summary</h2>
+                        <div class="summary-item"><strong>Total News Items:</strong> 275</div>
+                        <div class="summary-item"><strong>Average Market Mood:</strong> 0.89 (Range: -1.0 to 3.6)</div>
+                        <div class="summary-item"><strong>Sentiment Distribution:</strong> 
+                            <span class="positive">8.4% Positive</span>,
+                            <span class="neutral">90.2% Neutral</span>,
+                            <span class="negative">1.5% Negative</span>
+                        </div>
+                        <div class="summary-item"><strong>Trend Direction:</strong> 
+                            <span class="negative">Worsening</span>
+                            
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h2>Mood Index Trend</h2>
+                        <div class="chart">
+                            <img src="mood_index_chart.png" alt="Market Mood Index Chart">
+                        </div>
+                        <table>
+                            <tr><th>Date</th><th>Mood Index</th><th>News Count</th></tr>
+                            
+                            <tr><td>2025-05-23</td><td>0.0</td><td>19</td></tr>
+                            
+                            <tr><td>2025-05-24</td><td>0.0</td><td>0</td></tr>
+                            
+                            <tr><td>2025-05-25</td><td>0.0</td><td>19</td></tr>
+                            
+                            <tr><td>2025-05-26</td><td>1.4</td><td>30</td></tr>
+                            
+                            <tr><td>2025-05-27</td><td>2.3</td><td>39</td></tr>
+                            
+                            <tr><td>2025-05-28</td><td>3.6</td><td>41</td></tr>
+                            
+                            <tr><td>2025-05-29</td><td>2.4</td><td>38</td></tr>
+                            
+                            <tr><td>2025-05-30</td><td>2.0</td><td>29</td></tr>
+                            
+                            <tr><td>2025-05-31</td><td>0.0</td><td>0</td></tr>
+                            
+                            <tr><td>2025-06-01</td><td>0.0</td><td>8</td></tr>
+                            
+                            <tr><td>2025-06-02</td><td>0.0</td><td>37</td></tr>
+                            
+                            <tr><td>2025-06-03</td><td>-1.0</td><td>15</td></tr>
+                            
+                        </table>
+                    </div>
+
+                    <div class="section">
+                        <h2>Category Analysis</h2>
+                        <div class="chart">
+                            <img src="category_distribution_chart.png" alt="Category Distribution Chart">
+                        </div>
+                        <table>
+                            <tr><th>Category</th><th>Total Count</th><th>Percentage</th></tr>
+                            
+                            <tr><td>Neutral</td><td>154</td><td>56.0%</td></tr>
+                            
+                            <tr><td>Current Global Market Conditions</td><td>34</td><td>12.4%</td></tr>
+                            
+                            <tr><td>Positive-Normal</td><td>23</td><td>8.4%</td></tr>
+                            
+                            <tr><td>Current Indian Stock Market Conditions</td><td>20</td><td>7.3%</td></tr>
+                            
+                            <tr><td>Upcoming Events</td><td>15</td><td>5.5%</td></tr>
+                            
+                            <tr><td>Market Sentiment</td><td>7</td><td>2.5%</td></tr>
+                            
+                            <tr><td>Sector-Specific News</td><td>7</td><td>2.5%</td></tr>
+                            
+                            <tr><td>Government Policy Changes</td><td>5</td><td>1.8%</td></tr>
+                            
+                            <tr><td>Commodity Price Volatility</td><td>5</td><td>1.8%</td></tr>
+                            
+                            <tr><td>Negative-Normal</td><td>4</td><td>1.5%</td></tr>
+                            
+                            <tr><td>Political Events Impacting Markets</td><td>1</td><td>0.4%</td></tr>
+                            
+                        </table>
+                    </div>
+
+                    <div class="section">
+                        <h2>Sentiment Analysis</h2>
+                        <div class="chart">
+                            <img src="sentiment_distribution_chart.png" alt="Sentiment Distribution Chart">
+                        </div>
+                        <table>
+                            <tr><th>Date</th><th>Positive</th><th>Neutral</th><th>Negative</th><th>Total</th></tr>
+                            
+                            <tr>
+                                <td>2025-05-23</td>
+                                <td class="positive">2</td>
+                                <td class="neutral">15</td>
+                                <td class="negative">2</td>
+                                <td>19</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-05-24</td>
+                                <td class="positive">0</td>
+                                <td class="neutral">0</td>
+                                <td class="negative">0</td>
+                                <td>0</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-05-25</td>
+                                <td class="positive">0</td>
+                                <td class="neutral">19</td>
+                                <td class="negative">0</td>
+                                <td>19</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-05-26</td>
+                                <td class="positive">2</td>
+                                <td class="neutral">28</td>
+                                <td class="negative">0</td>
+                                <td>30</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-05-27</td>
+                                <td class="positive">4</td>
+                                <td class="neutral">35</td>
+                                <td class="negative">0</td>
+                                <td>39</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-05-28</td>
+                                <td class="positive">6</td>
+                                <td class="neutral">35</td>
+                                <td class="negative">0</td>
+                                <td>41</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-05-29</td>
+                                <td class="positive">4</td>
+                                <td class="neutral">34</td>
+                                <td class="negative">0</td>
+                                <td>38</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-05-30</td>
+                                <td class="positive">5</td>
+                                <td class="neutral">23</td>
+                                <td class="negative">1</td>
+                                <td>29</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-05-31</td>
+                                <td class="positive">0</td>
+                                <td class="neutral">0</td>
+                                <td class="negative">0</td>
+                                <td>0</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-06-01</td>
+                                <td class="positive">0</td>
+                                <td class="neutral">8</td>
+                                <td class="negative">0</td>
+                                <td>8</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-06-02</td>
+                                <td class="positive">0</td>
+                                <td class="neutral">37</td>
+                                <td class="negative">0</td>
+                                <td>37</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>2025-06-03</td>
+                                <td class="positive">0</td>
+                                <td class="neutral">14</td>
+                                <td class="negative">1</td>
+                                <td>15</td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+
+                    <div class="section">
+                        <h2>Insights and Observations</h2>
+                        <ul>
+                            <li>The market mood was most negative on 2025-06-03 (-1.0).</li>
+                            <li>The market mood was most positive on 2025-05-28 (3.6).</li>
+                            <li>The most active day was 2025-05-28 with 41 news items.</li>
+                            <li>The most common news category was "Neutral" with 154 items.</li>
+                            <li>The overall market mood has been 
+                                worsening
+                                 over the analyzed period.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer">
+                        <p>Generated by Market News Analyzer</p>
+                    </div>
+                </div>
+            </body>
+            </html>
