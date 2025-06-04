@@ -1,0 +1,196 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Market Sentiment Historical Analysis</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5; }
+                .container { max-width: 1200px; margin: 0 auto; }
+                .header { background-color: #2c3e50; color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+                .section { background-color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+                .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+                .metric-card { background-color: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center; }
+                .bullish { color: #28a745; }
+                .bearish { color: #dc3545; }
+                .neutral { color: #6c757d; }
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+                th { background-color: #f8f9fa; }
+                .chart { width: 100%; margin: 20px 0; }
+                .insight { background-color: #e8f4fd; border-left: 4px solid #0066cc; padding: 15px; margin: 15px 0; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>Market Sentiment Historical Analysis</h1>
+                    <p>Analysis Period: 2025-04-29 to 2025-06-03</p>
+                    <p>Generated on: 2025-06-03 20:29:57</p>
+                </div>
+                
+                <div class="section">
+                    <h2>Executive Summary</h2>
+                    <div class="grid">
+                        <div class="metric-card">
+                            <h3>Current Sentiment</h3>
+                            <p class="bullish" style="font-size: 24px; font-weight: bold;">
+                                Slightly Bullish
+                            </p>
+                            <p>Score: 6.0</p>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Trend Direction</h3>
+                            <p style="font-size: 24px; font-weight: bold;">
+                                Improving
+                            </p>
+                            <p>7-day momentum: 11.8</p>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Market Volatility</h3>
+                            <p style="font-size: 24px; font-weight: bold;">
+                                4.8
+                            </p>
+                            <p>7-day volatility</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>Historical Sentiment Trend</h2>
+                    <div class="chart">
+                        <img src="sentiment_trend.png" alt="Sentiment Trend Chart" style="width: 100%;">
+                    </div>
+                    <div class="insight">
+                        <h3>Key Insights</h3>
+                        <ul>
+                            <li>Average sentiment score over period: 2.2</li>
+                            <li>Highest sentiment: 15.0 on 2025-05-19</li>
+                            <li>Lowest sentiment: -13.5 on 2025-05-03</li>
+                            <li>Current trend: Sideways consolidation with low volatility</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>Indicator Performance Heatmap</h2>
+                    <div class="chart">
+                        <img src="indicator_heatmap.png" alt="Indicator Heatmap" style="width: 100%;">
+                    </div>
+                    <div class="insight">
+                        <h3>Leading Indicators</h3>
+                        <p>No significant leading indicators identified in the current dataset.</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>Market Sentiment Forecast</h2>
+                    <div class="chart">
+                        <img src="sentiment_forecast.png" alt="Sentiment Forecast" style="width: 100%;">
+                    </div>
+                    <div class="insight">
+                        <h3>Forecast Summary</h3>
+                        <p>7-day forecast: 12.2</p>
+                        <p>Expected trend: Bullish</p>
+                        <p>Confidence interval: -11.1 to 35.6</p>
+                    </div>
+                </div>
+                
+                # Find this section in generate_analysis_report function and replace with:
+
+            <div class="section">
+    <h2>Technical Analysis</h2>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Current Value</th>
+            <th>7-Day Change</th>
+            <th>Signal</th>
+        </tr>
+        <tr>
+            <td>Overall Sentiment</td>
+            <td>6.0</td>
+            <td>11.8</td>
+            <td class="bullish">
+                Bullish
+            </td>
+        </tr>
+        <tr>
+            <td>7-Day MA</td>
+            <td>6.2</td>
+            <td>1.5</td>
+            <td class="bullish">
+                Above 14-Day MA
+            </td>
+        </tr>
+        <tr>
+            <td>Market Volatility</td>
+            <td>4.8</td>
+            <td>-2.7</td>
+            <td class="bullish">
+                Low
+            </td>
+        </tr>
+    </table>
+</div>
+                
+                <div class="section">
+                    <h2>Market Regime Analysis</h2>
+                    
+        <div class="grid">
+            <div class="metric-card">
+                <h3>Current Regime</h3>
+                <p style="font-size: 24px; font-weight: bold;">Mild Bull Market</p>
+                <p>Moderately positive sentiment</p>
+            </div>
+            <div class="metric-card">
+                <h3>Regime Duration</h3>
+                <p style="font-size: 24px; font-weight: bold;">1 days</p>
+                <p>Started on: 2025-06-02</p>
+            </div>
+            <div class="metric-card">
+                <h3>Historical Context</h3>
+                <p>Average sentiment: 2.2</p>
+                <p>Current vs average: 171.4%</p>
+            </div>
+        </div>
+        
+                </div>
+                
+                <div class="section">
+                    <h2>Risk Assessment</h2>
+                    
+        <div class="insight">
+            <h3>Risk Assessment: <span class="bullish">Low Risk</span></h3>
+            <div class="grid">
+                <div class="metric-card">
+                    <h4>Volatility Risk</h4>
+                    <p>Current: 4.8</p>
+                    <p>Average: 7.0</p>
+                    <p>Status: Normal</p>
+                </div>
+                <div class="metric-card">
+                    <h4>Drawdown Risk</h4>
+                    <p>Current drawdown: 60.0%</p>
+                    <p>From peak: 15.0</p>
+                    <p>Status: High</p>
+                </div>
+                <div class="metric-card">
+                    <h4>Trend Risk</h4>
+                    <p>7-day momentum: 11.8</p>
+                    <p>14-day momentum: 12.1</p>
+                    <p>Status: Positive</p>
+                </div>
+            </div>
+            <h4>Risk Management Recommendations:</h4>
+            <ul>
+                <li>Market conditions favorable for maintaining positions</li><li>Consider opportunities in strong sectors</li><li>Monitor for potential trend changes</li>
+            </ul>
+        </div>
+        
+                </div>
+            </div>
+        </body>
+        </html>
+        
