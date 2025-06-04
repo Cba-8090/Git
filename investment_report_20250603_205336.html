@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Analysis Report - 2025-06-03 20:53:36</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .report-section {
+            background: white;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            padding: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        
+        .section-content {
+            padding: 25px;
+        }
+        
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .recommendation-card {
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .increase { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .reduce { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .monitor { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .maintain { background: linear-gradient(135deg, #7f8c8d, #95a5a6); }
+        
+        .card-title {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 8px;
+        }
+        
+        .recommendation-item {
+            background: rgba(255,255,255,0.1);
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+        }
+        
+        .portfolio-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .portfolio-table th,
+        .portfolio-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .portfolio-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .positive { color: #27ae60; font-weight: bold; }
+        .negative { color: #e74c3c; font-weight: bold; }
+        
+        .insight-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .insight-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .risk-alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            color: #856404;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .metric-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .header h1 { font-size: 2em; }
+            .recommendation-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Investment Analysis Report</h1>
+            <p>Comprehensive Sector Rotation Strategy</p>
+            <p>Generated: 2025-06-03 20:53:36 | Market Analysis & Portfolio Recommendations</p>
+        </div>
+        
+        <!-- Executive Summary -->
+        <div class="report-section">
+            <div class="section-header">🎯 Executive Summary</div>
+            <div class="section-content">
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value">NEUTRAL</div>
+                        <div class="metric-label">Market Regime</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">0.6%</div>
+                        <div class="metric-label">Avg Sector Performance</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">6</div>
+                        <div class="metric-label">Outperforming Sectors</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">4.0%</div>
+                        <div class="metric-label">Sector Volatility</div>
+                    </div>
+                </div>
+                
+                <div class="insight-box">
+                    <div class="insight-title">Market Outlook</div>
+                    <p>Neutral market with mixed sector performance</p>
+                    <p>• Technology sector strength driven by digital transformation</p><p>• Consumer staples under pressure from margin compression</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Investment Decisions -->
+        <div class="report-section">
+            <div class="section-header">🚀 Investment Decisions</div>
+            <div class="section-content">
+                <div class="recommendation-grid">
+                    <div class="recommendation-card increase">
+                        <div class="card-title">📈 INCREASE ALLOCATIONS</div>
+                        
+                        <div class="recommendation-item">
+                            <strong>REALTY</strong>: 3.0% → 5.0%<br>
+                            30d Performance: 9.5%<br>
+                            <em>Solid medium-term outperformance; Improving trend; High short-term volatility (6.0%)</em>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <div class="recommendation-card reduce">
+                        <div class="card-title">📉 REDUCE ALLOCATIONS</div>
+                        
+                        <div class="recommendation-item">No reduction recommendations at this time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tactical Positioning -->
+        <div class="report-section">
+            <div class="section-header">⚡ Tactical Positioning</div>
+            <div class="section-content">
+                <div class="recommendation-grid">
+                    <div class="recommendation-card monitor">
+                        <div class="card-title">👀 MONITOR FOR ENTRY</div>
+                        
+                        <div class="recommendation-item">
+                            <strong>MEDIA</strong>: Current 4.0%<br>
+                            Trend: IMPROVING | 30d: 6.4%<br>
+                            <em>Solid medium-term outperformance; Improving trend; High short-term volatility (3.9%)</em>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="recommendation-card maintain">
+                        <div class="card-title">⚖️ MAINTAIN WEIGHTS</div>
+                        
+                        <div class="recommendation-item">
+                            <strong>AUTO</strong>: 10.0%<br>
+                            Performance: 4.7% | SIDEWAYS<br>
+                        </div>
+                        
+                        <div class="recommendation-item">
+                            <strong>BANK</strong>: 15.0%<br>
+                            Performance: -1.6% | SIDEWAYS<br>
+                        </div>
+                        
+                        <div class="recommendation-item">
+                            <strong>IT</strong>: 12.0%<br>
+                            Performance: 6.9% | SIDEWAYS<br>
+                        </div>
+                        
+                        <div class="recommendation-item">
+                            <strong>INFRA</strong>: 6.0%<br>
+                            Performance: 1.0% | IMPROVING<br>
+                        </div>
+                        
+                        <div class="recommendation-item">
+                            <strong>CONSUMPTION</strong>: 5.0%<br>
+                            Performance: -1.8% | SIDEWAYS<br>
+                        </div>
+                        
+                        <div class="recommendation-item">...and 11 other sectors</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Portfolio Rebalancing -->
+        <div class="report-section">
+            <div class="section-header">🔄 Portfolio Rebalancing Plan</div>
+            <div class="section-content">
+                
+        <div class="insight-box">
+            <div class="insight-title">Recommended Changes (Total: 2.0%)</div>
+            <p>The following rebalancing moves are recommended based on sector rotation signals:</p>
+        </div>
+        
+        <table class="portfolio-table">
+            <thead>
+                <tr>
+                    <th>Sector</th>
+                    <th>Current %</th>
+                    <th>New %</th>
+                    <th>Change</th>
+                    <th>Action</th>
+                    <th>Reasoning</th>
+                </tr>
+            </thead>
+            <tbody>
+        
+                <tr>
+                    <td><strong>REALTY</strong></td>
+                    <td>3.0%</td>
+                    <td>5.0%</td>
+                    <td class="positive">+2.0%</td>
+                    <td>📈 INCREASE</td>
+                    <td>Solid medium-term outperformance; Improving trend; High short-term volatility (6.0%)</td>
+                </tr>
+            
+            </tbody>
+        </table>
+        
+        <div class="risk-alert">
+            <strong>⚠️ Implementation Note:</strong> Execute changes gradually over 3-5 trading days to minimize market impact.
+            Monitor intraday levels for optimal entry/exit points.
+        </div>
+        
+            </div>
+        </div>
+        
+        <!-- Risk Management -->
+        <div class="report-section">
+            <div class="section-header">🛡️ Risk Management & Strategy</div>
+            <div class="section-content">
+                
+        <div class="insight-box">
+            <div class="insight-title">Position Sizing Rules</div>
+            <p><strong>Maximum Sector Weight:</strong> 20% of total portfolio</p>
+            <p><strong>Minimum Sector Weight:</strong> 2% for diversification</p>
+            <p><strong>Maximum Single Change:</strong> 3% per rebalancing</p>
+        </div>
+        
+        <div class="recommendation-grid">
+            <div class="recommendation-card monitor">
+                <div class="card-title">📅 Timing Strategy</div>
+                <div class="recommendation-item">
+                    <strong>Week 1:</strong> Execute strong signals (IT, REALTY increases)
+                </div>
+                <div class="recommendation-item">
+                    <strong>Week 2:</strong> Implement moderate changes (FMCG reduction)
+                </div>
+                <div class="recommendation-item">
+                    <strong>Week 3:</strong> Monitor tactical opportunities
+                </div>
+                <div class="recommendation-item">
+                    <strong>Week 4:</strong> Review and prepare next cycle
+                </div>
+            </div>
+            
+            <div class="recommendation-card maintain">
+                <div class="card-title">🎯 Expected Outcomes</div>
+                <div class="recommendation-item">
+                    <strong>Enhanced Returns:</strong> 2-4% additional performance if signals prove correct
+                </div>
+                <div class="recommendation-item">
+                    <strong>Risk Reduction:</strong> Earlier exit from underperforming sectors
+                </div>
+                <div class="recommendation-item">
+                    <strong>Systematic Approach:</strong> Remove emotional bias from decisions
+                </div>
+            </div>
+        </div>
+        
+        <div class="risk-alert">
+            <strong>🛑 Stop-Loss Triggers:</strong><br>
+            • Exit positions if relative performance reverses by >5%<br>
+            • Re-evaluate strategy if 3+ consecutive wrong signals<br>
+            • Reduce position sizes if market volatility exceeds 20%
+        </div>
+        
+            </div>
+        </div>
+        
+        <!-- Strategic Insights -->
+        <div class="report-section">
+            <div class="section-header">🧠 Strategic Insights</div>
+            <div class="section-content">
+                
+        <div class="insight-box">
+            <div class="insight-title">Market Regime Analysis</div>
+            <p><strong>Current Regime:</strong> Neutral market with mixed sector performance</p>
+            <p><strong>Sector Dispersion:</strong> 4.0% (High dispersion indicates strong rotation opportunities)</p>
+        </div>
+        
+        <div class="recommendation-grid">
+            <div class="recommendation-card increase">
+                <div class="card-title">🎯 Sector Themes</div>
+                <div class="recommendation-item">• Technology sector strength driven by digital transformation</div><div class="recommendation-item">• Consumer staples under pressure from margin compression</div>
+            </div>
+            
+            <div class="recommendation-card monitor">
+                <div class="card-title">📊 Portfolio Construction</div>
+                <div class="recommendation-item">
+                    <strong>Overweight:</strong> Growth sectors with momentum (IT, REALTY)
+                </div>
+                <div class="recommendation-item">
+                    <strong>Underweight:</strong> Defensive sectors showing weakness (FMCG)
+                </div>
+                <div class="recommendation-item">
+                    <strong>Neutral:</strong> Cyclical sectors pending confirmation (AUTO, METAL)
+                </div>
+            </div>
+        </div>
+        
+        <div class="insight-box">
+            <div class="insight-title">Next Review Triggers</div>
+            <p>• <strong>Weekly Review:</strong> Every Friday after market close</p>
+            <p>• <strong>Signal Updates:</strong> When any sector moves >5% in relative performance</p>
+            <p>• <strong>Emergency Review:</strong> Major market events or >3% single-day moves</p>
+        </div>
+        
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+        
