@@ -7,32 +7,56 @@ Transforms raw market data into professional, multi-audience publications
 """
 
 import os
+import sys
 import json
 import logging
 import re
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple, Any
 from pathlib import Path
-from bs4 import BeautifulSoup
 import traceback
 from dataclasses import dataclass
 from enum import Enum
 
-# Setup logging
+# Check for required dependencies
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    print("Error: BeautifulSoup4 is required. Install with: pip install beautifulsoup4")
+    sys.exit(1)
+
+# Setup basic logging first - we'll add file handler after directory creation
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('./logs/market_intelligence.log'),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
+
+def setup_logging():
+    """Setup logging with file handler after directories are created"""
+    # Ensure logs directory exists
+    Path("./logs").mkdir(exist_ok=True)
+
+    # Add file handler
+    file_handler = logging.FileHandler('./logs/market_intelligence.log')
+    file_handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+
+    # Add to root logger
+    logging.getLogger().addHandler(file_handler)
+    logger.info("Logging system initialized successfully")
+
+
 class FrameworkStatus(Enum):
     CRITICAL = "CRITICAL"
-    WARNING = "WARNING" 
+    WARNING = "WARNING"
     NORMAL = "NORMAL"
+
 
 @dataclass
 class ContradictionFramework:
@@ -43,29 +67,33 @@ class ContradictionFramework:
     status: FrameworkStatus
     implication: str
 
+
 class MarketIntelligenceEngine:
     """
     Core engine for processing market data and generating intelligence
     """
-    
+
     def __init__(self):
+        # Setup logging first
+        setup_logging()
+
         self.data_sources = {
             "market_trend": "C:/Projects/apps/institutional_flow_quant/output/progressive_analysis/market_trend_analysis_{date}.html",
-            "market_dashboard": "C:/Projects/apps/institutional_flow_quant/output/progressive_analysis/market_dashboard_{date}.html", 
-            "news_dashboard": "C:/Projects/apps/newsagent/data/processed/news_dashboard_{date}.html",
-            "sector_sentiment": "C:/Projects/apps/institutional_flow_quant/output/sectortrend/sector_sentiment_allinone_{date}.html",
+            "market_dashboard": "C:/Projects/apps/institutional_flow_quant/output/progressive_analysis/market_dashboard_{date}.html",
+            "news_dashboard": "C:/Projects/apps/newsagent/data/processed/news_dashboard_{date_formatted}.html",
+            "sector_sentiment": "C:/Projects/apps/institutional_flow_quant/output/sectortrend/sector_sentiment_allinone_{fy_start}_{date}.html",
             "global_sentiment": "C:/Projects/apps/globalindicators/reports/market_sentiment_analysis_{date}.html",
             "global_economic": "C:/Projects/apps/globalindicators/data/market_dashboard_{date}.html",
-            "economic_indicators": "C:/Projects/apps/globalindicators/output/economic_indicators_trend_{date}.html",
+            "economic_indicators": "C:/Projects/apps/globalindicators/output/economic_indicators_trend_{fy_start}_{date}.html",
             "hyg_credit": "C:/Projects/apps/CodeRed/reports/hyg_report_{date}.html",
             "nifty_mrn": "C:/Projects/apps/institutional_flow_quant/NiftyMRNPredictions_{date}.html"
         }
-        
+
         self.output_dir = "./output"
         self.templates_dir = "./templates"
         self.logs_dir = "./logs"
         self._ensure_directories()
-        
+
         # Initialize contradiction detection framework
         self.contradiction_frameworks = {
             "global_vs_local": ContradictionFramework(
@@ -74,7 +102,7 @@ class MarketIntelligenceEngine:
                 "Global-local sentiment divergence creating arbitrage opportunities"
             ),
             "economic_assessment": ContradictionFramework(
-                "Economic Assessment vs Reality", 
+                "Economic Assessment vs Reality",
                 0.0, 50.0, 0.15, FrameworkStatus.NORMAL,
                 "Economic assessments contradicting actual indicator data"
             ),
@@ -109,24 +137,41 @@ class MarketIntelligenceEngine:
         """Create necessary directories"""
         for directory in [self.output_dir, self.templates_dir, self.logs_dir]:
             Path(directory).mkdir(exist_ok=True)
-        
+
         Path(f"{self.output_dir}/daily").mkdir(exist_ok=True)
         Path(f"{self.output_dir}/weekly").mkdir(exist_ok=True)
+
+    def get_financial_year_start(self, date_str: str) -> str:
+        """Calculate financial year start date (April 1st) for a given date"""
+        try:
+            date_obj = datetime.strptime(date_str, "%Y%m%d")
+
+            # Financial year starts April 1st
+            if date_obj.month >= 4:  # April to December - same year
+                fy_start = datetime(date_obj.year, 4, 1)
+            else:  # January to March - previous year
+                fy_start = datetime(date_obj.year - 1, 4, 1)
+
+            return fy_start.strftime("%Y%m%d")
+
+        except ValueError:
+            logger.error(f"Invalid date format: {date_str}")
+            return "20250401"  # Default fallback
 
     # Data Extraction Methods
     def extract_numeric_value(self, text: str, pattern: str = r'([\d.-]+)') -> Optional[float]:
         """Extract numeric values from text with enhanced patterns"""
         if not text:
             return None
-        
+
         # Try multiple patterns for robustness
         patterns = [
             pattern,
             r'([\d,]+\.?\d*)',  # Numbers with commas
-            r'(\d+\.?\d*)%?',   # Percentages
-            r'([+-]?\d*\.?\d+)' # Signed numbers
+            r'(\d+\.?\d*)%?',  # Percentages
+            r'([+-]?\d*\.?\d+)'  # Signed numbers
         ]
-        
+
         for p in patterns:
             match = re.search(p, str(text).replace(',', ''))
             if match:
@@ -140,13 +185,13 @@ class MarketIntelligenceEngine:
         """Extract percentage values with multiple formats"""
         if not text:
             return None
-        
+
         patterns = [
             r'([-+]?\d*\.?\d+)%',
             r'([-+]?\d*\.?\d+)\s*percent',
             r'([-+]?\d*\.?\d+)\s*pct'
         ]
-        
+
         for pattern in patterns:
             match = re.search(pattern, str(text), re.IGNORECASE)
             if match:
@@ -162,15 +207,15 @@ class MarketIntelligenceEngine:
             if not os.path.exists(file_path):
                 logger.warning(f"File not found: {file_path}")
                 return None
-                
+
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
                 if not content.strip():
                     logger.warning(f"Empty file: {file_path}")
                     return None
-                    
+
                 return BeautifulSoup(content, 'html.parser')
-                
+
         except Exception as e:
             logger.error(f"Error parsing {file_path}: {str(e)}")
             return None
@@ -179,29 +224,29 @@ class MarketIntelligenceEngine:
         """Enhanced market trend data extraction"""
         if not soup:
             return self._get_fallback_trend_data()
-            
+
         try:
             data = {
                 "sentiment_score": 0.09,
                 "trend_strength": "Strongly Bearish (5/5)",
                 "timeframe_analysis": {
                     "7_day": "Deteriorating",
-                    "15_day": "Deteriorating", 
+                    "15_day": "Deteriorating",
                     "30_day": "Deteriorating"
                 },
                 "fii_flow_change": -46.6,
                 "sentiment_evolution": -0.51,
                 "statistical_significance": True
             }
-            
+
             # Enhanced parsing with multiple selectors
             sentiment_selectors = [
-                'td:contains("sentiment")',
+                'td[class*="sentiment"]',
                 '.sentiment-score',
                 '[data-metric="sentiment"]',
-                'span:contains("Sentiment")'
+                'span[class*="sentiment"]'
             ]
-            
+
             for selector in sentiment_selectors:
                 elements = soup.select(selector)
                 for element in elements:
@@ -212,9 +257,9 @@ class MarketIntelligenceEngine:
                         break
                 if data["sentiment_score"] != 0.09:  # Found a value
                     break
-            
+
             # Extract FII flow data
-            fii_elements = soup.find_all(text=re.compile(r'FII|fii|foreign', re.I))
+            fii_elements = soup.find_all(string=re.compile(r'FII|fii|foreign', re.I))
             for element in fii_elements[:5]:
                 parent = element.parent if element.parent else element
                 text = parent.get_text(strip=True)
@@ -222,9 +267,9 @@ class MarketIntelligenceEngine:
                 if percentage is not None and -100 <= percentage <= 100:
                     data["fii_flow_change"] = percentage
                     break
-                    
+
             return data
-            
+
         except Exception as e:
             logger.error(f"Error extracting market trend data: {str(e)}")
             return self._get_fallback_trend_data()
@@ -233,7 +278,7 @@ class MarketIntelligenceEngine:
         """Enhanced market dashboard data extraction"""
         if not soup:
             return self._get_fallback_dashboard_data()
-            
+
         try:
             data = {
                 "overall_sentiment": 0.09,
@@ -254,14 +299,14 @@ class MarketIntelligenceEngine:
                 "divergent_stocks": 61,
                 "price_sentiment_correlation": 68
             }
-            
+
             # Extract alert counts
             alert_patterns = [
                 r'(\d+)\s*red\s*alert',
                 r'red\s*alert.*?(\d+)',
                 r'(\d+)\s*alert.*?red'
             ]
-            
+
             text_content = soup.get_text().lower()
             for pattern in alert_patterns:
                 match = re.search(pattern, text_content, re.IGNORECASE)
@@ -271,19 +316,20 @@ class MarketIntelligenceEngine:
                         break
                     except (ValueError, IndexError):
                         continue
-            
+
             # Extract stock symbols
             stock_symbols = re.findall(r'\b[A-Z]{2,10}\b', soup.get_text())
             known_stocks = ['NTPC', 'POWERGRID', 'HINDUNILVR', 'ITC', 'COALINDIA', 'TATAPOWER',
-                           'BHARTI', 'ZOMATO', 'PAYTM', 'NYKAA', 'INDIGO', 'RELIANCE']
-            
+                            'BHARTI', 'ZOMATO', 'PAYTM', 'NYKAA', 'INDIGO', 'RELIANCE']
+
             found_stocks = [stock for stock in stock_symbols if stock in known_stocks]
             if len(found_stocks) >= 6:
                 data["stock_lists"]["accumulation"] = found_stocks[:6]
-                data["stock_lists"]["distribution"] = found_stocks[6:12] if len(found_stocks) >= 12 else found_stocks[3:9]
-                
+                data["stock_lists"]["distribution"] = found_stocks[6:12] if len(found_stocks) >= 12 else found_stocks[
+                                                                                                         3:9]
+
             return data
-            
+
         except Exception as e:
             logger.error(f"Error extracting market dashboard data: {str(e)}")
             return self._get_fallback_dashboard_data()
@@ -292,7 +338,7 @@ class MarketIntelligenceEngine:
         """Enhanced sector sentiment data extraction"""
         if not soup:
             return self._get_fallback_sector_data()
-            
+
         try:
             data = {
                 "overall_assessment": "MODERATELY BEARISH AND DETERIORATING",
@@ -313,7 +359,7 @@ class MarketIntelligenceEngine:
                 "top_sectors": ["Power", "FMCG", "Metals"],
                 "avoid_sectors": ["Telecom", "Consumer Services", "Services"]
             }
-            
+
             # Extract sector ratios from tables
             tables = soup.find_all('table')
             for table in tables:
@@ -324,7 +370,7 @@ class MarketIntelligenceEngine:
                         sector_name = cells[0].get_text(strip=True).lower()
                         ratio_text = cells[1].get_text(strip=True)
                         ratio_value = self.extract_numeric_value(ratio_text)
-                        
+
                         if ratio_value is not None:
                             if 'power' in sector_name:
                                 data["sector_ratios"]["power"] = ratio_value
@@ -334,9 +380,9 @@ class MarketIntelligenceEngine:
                                 data["sector_ratios"]["metals"] = ratio_value
                             elif 'telecom' in sector_name:
                                 data["sector_ratios"]["telecom"] = ratio_value
-                                
+
             return data
-            
+
         except Exception as e:
             logger.error(f"Error extracting sector sentiment data: {str(e)}")
             return self._get_fallback_sector_data()
@@ -345,7 +391,7 @@ class MarketIntelligenceEngine:
         """Enhanced global sentiment data extraction"""
         if not soup:
             return self._get_fallback_global_data()
-            
+
         try:
             data = {
                 "sentiment_score": 6.0,
@@ -363,14 +409,14 @@ class MarketIntelligenceEngine:
                 "confidence_interval": (-11.1, 35.6),
                 "risk_level": "Low Risk"
             }
-            
+
             # Extract global sentiment score
             sentiment_patterns = [
                 r'sentiment.*?score.*?([+-]?\d*\.?\d+)',
                 r'global.*?sentiment.*?([+-]?\d*\.?\d+)',
                 r'([+-]?\d*\.?\d+).*?sentiment'
             ]
-            
+
             text_content = soup.get_text()
             for pattern in sentiment_patterns:
                 match = re.search(pattern, text_content, re.IGNORECASE)
@@ -382,9 +428,9 @@ class MarketIntelligenceEngine:
                             break
                     except (ValueError, IndexError):
                         continue
-                        
+
             return data
-            
+
         except Exception as e:
             logger.error(f"Error extracting global sentiment data: {str(e)}")
             return self._get_fallback_global_data()
@@ -393,7 +439,7 @@ class MarketIntelligenceEngine:
         """Enhanced Nifty MRN data extraction"""
         if not soup:
             return self._get_fallback_mrn_data()
-            
+
         try:
             data = {
                 "mi_state": "ZERO",
@@ -408,17 +454,17 @@ class MarketIntelligenceEngine:
                     "timeline": "2-4 days"
                 }
             }
-            
+
             # Extract MRN state and duration
             text_content = soup.get_text()
-            
+
             # Look for duration patterns
             duration_patterns = [
                 r'duration.*?(\d+)',
                 r'(\d+).*?day.*?duration',
                 r'day.*?(\d+).*?of.*?(\d+)'
             ]
-            
+
             for pattern in duration_patterns:
                 match = re.search(pattern, text_content, re.IGNORECASE)
                 if match:
@@ -429,7 +475,7 @@ class MarketIntelligenceEngine:
                             break
                     except (ValueError, IndexError):
                         continue
-            
+
             # Determine transition probability based on duration
             duration_pct = (data["mi_duration"] / data["max_duration"]) * 100
             if duration_pct > 75:
@@ -440,12 +486,169 @@ class MarketIntelligenceEngine:
                 data["transition_probability"] = "Moderate"
             else:
                 data["transition_probability"] = "Low"
-                
+
             return data
-            
+
         except Exception as e:
             logger.error(f"Error extracting MRN data: {str(e)}")
             return self._get_fallback_mrn_data()
+
+    def extract_news_dashboard_data(self, soup: BeautifulSoup) -> Dict:
+        """Enhanced news dashboard data extraction"""
+        if not soup:
+            return self._get_fallback_news_data()
+
+        try:
+            data = {
+                "market_mood_index": -1.0,
+                "total_articles": 15,
+                "sentiment_distribution": {
+                    "negative": 1,
+                    "neutral": 14,
+                    "positive": 0
+                },
+                "criticality_score_range": (0.00, 0.30),
+                "key_news_items": [],
+                "market_impact_assessment": "Neutral"
+            }
+
+            # Extract article count
+            text_content = soup.get_text()
+
+            # Look for article count patterns
+            article_patterns = [
+                r'(\d+)\s*articles?',
+                r'total.*?(\d+)',
+                r'processed.*?(\d+)'
+            ]
+
+            for pattern in article_patterns:
+                match = re.search(pattern, text_content, re.IGNORECASE)
+                if match:
+                    try:
+                        count = int(match.group(1))
+                        if 1 <= count <= 100:  # Reasonable range
+                            data["total_articles"] = count
+                            break
+                    except (ValueError, IndexError):
+                        continue
+
+            # Extract mood index
+            mood_patterns = [
+                r'mood.*?index.*?([-+]?\d*\.?\d+)',
+                r'market.*?mood.*?([-+]?\d*\.?\d+)',
+                r'sentiment.*?([-+]?\d*\.?\d+)'
+            ]
+
+            for pattern in mood_patterns:
+                match = re.search(pattern, text_content, re.IGNORECASE)
+                if match:
+                    try:
+                        mood = float(match.group(1))
+                        if -10 <= mood <= 10:  # Reasonable range
+                            data["market_mood_index"] = mood
+                            break
+                    except (ValueError, IndexError):
+                        continue
+
+            # Extract news headlines (look for headline patterns)
+            headlines = []
+            headline_elements = soup.find_all(['h1', 'h2', 'h3', 'h4', 'strong'])
+            for element in headline_elements[:5]:  # Limit to first 5
+                headline_text = element.get_text(strip=True)
+                if len(headline_text) > 10 and len(headline_text) < 200:  # Reasonable headline length
+                    headlines.append(headline_text)
+
+            data["key_news_items"] = headlines[:3]  # Top 3 headlines
+
+            # Determine market impact
+            if data["market_mood_index"] < -0.5:
+                data["market_impact_assessment"] = "Negative"
+            elif data["market_mood_index"] > 0.5:
+                data["market_impact_assessment"] = "Positive"
+            else:
+                data["market_impact_assessment"] = "Neutral"
+
+            return data
+
+        except Exception as e:
+            logger.error(f"Error extracting news dashboard data: {str(e)}")
+            return self._get_fallback_news_data()
+
+    def extract_economic_indicators_data(self, soup: BeautifulSoup) -> Dict:
+        """Enhanced economic indicators data extraction"""
+        if not soup:
+            return self._get_fallback_economic_indicators_data()
+
+        try:
+            data = {
+                "risk_index": 43.4,
+                "category_scores": {
+                    "employment": 45.2,
+                    "inflation": 41.8,
+                    "growth": 44.1,
+                    "monetary_policy": 42.9
+                },
+                "trend_analysis": "Mixed signals across indicators",
+                "key_alerts": [],
+                "overall_assessment": "Moderate Risk Environment"
+            }
+
+            # Extract risk index
+            text_content = soup.get_text()
+
+            # Look for risk index patterns
+            risk_patterns = [
+                r'risk.*?index.*?(\d*\.?\d+)',
+                r'overall.*?risk.*?(\d*\.?\d+)',
+                r'risk.*?score.*?(\d*\.?\d+)'
+            ]
+
+            for pattern in risk_patterns:
+                match = re.search(pattern, text_content, re.IGNORECASE)
+                if match:
+                    try:
+                        risk_val = float(match.group(1))
+                        if 0 <= risk_val <= 100:  # Reasonable range
+                            data["risk_index"] = risk_val
+                            break
+                    except (ValueError, IndexError):
+                        continue
+
+            # Extract category scores from tables
+            tables = soup.find_all('table')
+            for table in tables:
+                rows = table.find_all('tr')
+                for row in rows:
+                    cells = row.find_all(['td', 'th'])
+                    if len(cells) >= 2:
+                        category_name = cells[0].get_text(strip=True).lower()
+                        score_text = cells[1].get_text(strip=True)
+                        score_value = self.extract_numeric_value(score_text)
+
+                        if score_value is not None and 0 <= score_value <= 100:
+                            if 'employment' in category_name or 'job' in category_name:
+                                data["category_scores"]["employment"] = score_value
+                            elif 'inflation' in category_name or 'price' in category_name:
+                                data["category_scores"]["inflation"] = score_value
+                            elif 'growth' in category_name or 'gdp' in category_name:
+                                data["category_scores"]["growth"] = score_value
+                            elif 'monetary' in category_name or 'interest' in category_name:
+                                data["category_scores"]["monetary_policy"] = score_value
+
+            # Determine overall assessment based on risk index
+            if data["risk_index"] < 30:
+                data["overall_assessment"] = "Low Risk Environment"
+            elif data["risk_index"] < 60:
+                data["overall_assessment"] = "Moderate Risk Environment"
+            else:
+                data["overall_assessment"] = "High Risk Environment"
+
+            return data
+
+        except Exception as e:
+            logger.error(f"Error extracting economic indicators data: {str(e)}")
+            return self._get_fallback_economic_indicators_data()
 
     # Fallback data methods
     def _get_fallback_trend_data(self) -> Dict:
@@ -499,108 +702,196 @@ class MarketIntelligenceEngine:
             "transition_probability": "High"
         }
 
+    def _get_fallback_news_data(self) -> Dict:
+        return {
+            "market_mood_index": -1.0,
+            "total_articles": 15,
+            "sentiment_distribution": {
+                "negative": 1,
+                "neutral": 14,
+                "positive": 0
+            },
+            "criticality_score_range": (0.00, 0.30),
+            "key_news_items": [
+                "Market sentiment remains cautious amid global uncertainty",
+                "Sector rotation continues with power stocks leading",
+                "Economic indicators show mixed signals"
+            ],
+            "market_impact_assessment": "Neutral"
+        }
+
+    def _get_fallback_economic_indicators_data(self) -> Dict:
+        return {
+            "risk_index": 43.4,
+            "category_scores": {
+                "employment": 45.2,
+                "inflation": 41.8,
+                "growth": 44.1,
+                "monetary_policy": 42.9
+            },
+            "trend_analysis": "Mixed signals across indicators",
+            "key_alerts": [
+                "Employment data showing moderate stress",
+                "Inflation trending within target range",
+                "Growth indicators mixed"
+            ],
+            "overall_assessment": "Moderate Risk Environment"
+        }
+
     # Core Analysis Methods
     def ingest_all_data(self, date_str: str) -> Tuple[Dict, Dict]:
         """Ingest and process data from all sources"""
         raw_data = {}
-        validation_report = {"issues": [], "warnings": [], "success_count": 0}
-        
+        validation_report = {"issues": [], "warnings": [], "success_count": 0, "source_status": {}}
+
         logger.info(f"Ingesting data for date: {date_str}")
-        
+
+        # Convert date formats for different sources
+        date_obj = datetime.strptime(date_str, "%Y%m%d")
+        date_formatted = date_obj.strftime("%Y-%m-%d")  # For news_dashboard: 2025-06-03
+        fy_start = self.get_financial_year_start(date_str)  # For financial year sources: 20250401
+
+        logger.info(f"Date conversions: standard={date_str}, formatted={date_formatted}, fy_start={fy_start}")
+
         extraction_methods = {
             "market_trend": self.extract_market_trend_data,
             "market_dashboard": self.extract_market_dashboard_data,
             "sector_sentiment": self.extract_sector_sentiment_data,
             "global_sentiment": self.extract_global_sentiment_data,
-            "nifty_mrn": self.extract_nifty_mrn_data
+            "nifty_mrn": self.extract_nifty_mrn_data,
+            "news_dashboard": self.extract_news_dashboard_data,
+            "economic_indicators": self.extract_economic_indicators_data  # Add economic indicators extraction
         }
-        
+
         for source_id, path_template in self.data_sources.items():
             try:
-                file_path = path_template.format(date=date_str)
+                # Handle different date formats based on source
+                if source_id == "news_dashboard":
+                    file_path = path_template.format(
+                        date=date_str,
+                        date_formatted=date_formatted,
+                        fy_start=fy_start
+                    )
+                elif source_id in ["sector_sentiment", "economic_indicators"]:
+                    file_path = path_template.format(
+                        date=date_str,
+                        date_formatted=date_formatted,
+                        fy_start=fy_start
+                    )
+                else:
+                    file_path = path_template.format(
+                        date=date_str,
+                        date_formatted=date_formatted,
+                        fy_start=fy_start
+                    )
+
+                logger.debug(f"Attempting to read: {file_path}")
                 soup = self.parse_html_file(file_path)
-                
+
+                # Track source status
+                if soup is None:
+                    validation_report["source_status"][source_id] = "FALLBACK - File not found"
+                    logger.warning(f"Using fallback data for {source_id} - file not found: {file_path}")
+                else:
+                    validation_report["source_status"][source_id] = "REAL - Successfully parsed"
+                    logger.info(f"Successfully parsed real data from {source_id}")
+
                 if source_id in extraction_methods:
                     raw_data[source_id] = extraction_methods[source_id](soup)
+                    # Mark if fallback was used
+                    raw_data[source_id]["_data_source"] = validation_report["source_status"][source_id]
+                    raw_data[source_id]["_file_path"] = file_path  # Add file path for debugging
                 else:
                     # Generic extraction for other sources
-                    raw_data[source_id] = {"status": "parsed", "source": source_id}
-                
+                    raw_data[source_id] = {
+                        "status": "parsed",
+                        "source": source_id,
+                        "_data_source": validation_report["source_status"][source_id],
+                        "_file_path": file_path
+                    }
+
                 validation_report["success_count"] += 1
-                logger.info(f"Successfully processed {source_id}")
-                
+
             except Exception as e:
                 error_msg = f"Failed to process {source_id}: {str(e)}"
                 validation_report["issues"].append(error_msg)
+                validation_report["source_status"][source_id] = f"ERROR - {str(e)[:50]}..."
                 logger.error(error_msg)
-                
-        logger.info(f"Data ingestion complete: {validation_report['success_count']}/{len(self.data_sources)} sources processed")
+
+        logger.info(
+            f"Data ingestion complete: {validation_report['success_count']}/{len(self.data_sources)} sources processed")
+
+        # Log summary of data sources
+        real_sources = sum(1 for status in validation_report["source_status"].values() if "REAL" in status)
+        fallback_sources = sum(1 for status in validation_report["source_status"].values() if "FALLBACK" in status)
+        logger.info(f"Data source summary: {real_sources} real, {fallback_sources} fallback")
+
         return raw_data, validation_report
 
     def calculate_master_divergence_index(self, raw_data: Dict) -> Dict:
         """Calculate comprehensive contradiction analysis across all frameworks"""
-        
+
         # Update framework levels based on data
         global_sentiment = raw_data.get("global_sentiment", {}).get("sentiment_score", 6.0)
         local_sentiment = raw_data.get("market_trend", {}).get("sentiment_score", 0.09)
-        
+
         # Framework 1: Global vs Local Sentiment
         if local_sentiment != 0:
             divergence_pct = abs((global_sentiment - local_sentiment) / local_sentiment * 100)
         else:
             divergence_pct = 6000
-            
+
         self.contradiction_frameworks["global_vs_local"].current_level = divergence_pct
         self.contradiction_frameworks["global_vs_local"].status = (
-            FrameworkStatus.CRITICAL if divergence_pct > 1000 
-            else FrameworkStatus.WARNING if divergence_pct > 100 
+            FrameworkStatus.CRITICAL if divergence_pct > 1000
+            else FrameworkStatus.WARNING if divergence_pct > 100
             else FrameworkStatus.NORMAL
         )
-        
+
         # Framework 2: Economic Assessment
         self.contradiction_frameworks["economic_assessment"].current_level = 75.0
         self.contradiction_frameworks["economic_assessment"].status = FrameworkStatus.CRITICAL
-        
+
         # Framework 3: Credit Data Integrity
         self.contradiction_frameworks["credit_vs_fundamentals"].current_level = 126.0
         self.contradiction_frameworks["credit_vs_fundamentals"].status = FrameworkStatus.CRITICAL
-        
+
         # Framework 4: Risk vs Activity
         self.contradiction_frameworks["risk_vs_activity"].current_level = 100.0
         self.contradiction_frameworks["risk_vs_activity"].status = FrameworkStatus.CRITICAL
-        
+
         # Framework 5: Sector Intelligence
         max_decline = 114.3
         self.contradiction_frameworks["sector_intelligence"].current_level = max_decline
         self.contradiction_frameworks["sector_intelligence"].status = FrameworkStatus.CRITICAL
-        
+
         # Framework 6: MRN Regime
         mrn_duration = raw_data.get("nifty_mrn", {}).get("mi_duration", 14)
         max_duration = raw_data.get("nifty_mrn", {}).get("max_duration", 21)
         duration_pct = (mrn_duration / max_duration) * 100
-        
+
         self.contradiction_frameworks["quantitative_regime"].current_level = duration_pct
         self.contradiction_frameworks["quantitative_regime"].status = (
-            FrameworkStatus.WARNING if duration_pct > 60 
+            FrameworkStatus.WARNING if duration_pct > 60
             else FrameworkStatus.NORMAL
         )
-        
+
         # Framework 7: US Economic Backdrop
         self.contradiction_frameworks["us_economic_backdrop"].current_level = 50.0
         self.contradiction_frameworks["us_economic_backdrop"].status = FrameworkStatus.WARNING
-        
+
         # Calculate master divergence index
         total_score = 0
         critical_count = 0
-        
+
         for framework in self.contradiction_frameworks.values():
             if framework.current_level > framework.threshold:
                 framework_score = min(framework.current_level / 100, 10) * framework.weight
                 total_score += framework_score
-                
+
             if framework.status == FrameworkStatus.CRITICAL:
                 critical_count += 1
-        
+
         # Generate opportunities
         opportunities = []
         if divergence_pct > 1000:
@@ -611,7 +902,7 @@ class MarketIntelligenceEngine:
                 "timeline": "2-8 weeks",
                 "confidence": "Very High"
             })
-        
+
         if critical_count >= 2:
             opportunities.append({
                 "type": "Multi-Framework Arbitrage",
@@ -620,7 +911,7 @@ class MarketIntelligenceEngine:
                 "timeline": "1-4 weeks",
                 "confidence": "High"
             })
-        
+
         return {
             "timestamp": datetime.now().isoformat(),
             "frameworks": {name: {
@@ -632,41 +923,42 @@ class MarketIntelligenceEngine:
             "master_divergence_index": total_score,
             "critical_frameworks": critical_count,
             "system_status": (
-                "CRITICAL" if critical_count >= 3 
-                else "WARNING" if critical_count >= 1 
+                "CRITICAL" if critical_count >= 3
+                else "WARNING" if critical_count >= 1
                 else "NORMAL"
             ),
             "opportunities": opportunities,
             "summary": {
                 "total_contradictions": len(self.contradiction_frameworks),
-                "active_contradictions": sum(1 for fw in self.contradiction_frameworks.values() 
-                                           if fw.current_level > fw.threshold),
+                "active_contradictions": sum(1 for fw in self.contradiction_frameworks.values()
+                                             if fw.current_level > fw.threshold),
                 "global_sentiment": global_sentiment,
                 "local_sentiment": local_sentiment,
                 "divergence_percentage": divergence_pct
             }
         }
 
+
 class PublicationGenerator:
     """
     Generates HTML publications with professional styling
     """
-    
+
     def __init__(self, intelligence_engine: MarketIntelligenceEngine):
         self.engine = intelligence_engine
-        
+
     def generate_daily_publication(self, analysis_data: Dict, raw_data: Dict, date_str: str) -> str:
         """Generate comprehensive daily market pulse"""
         formatted_date = datetime.strptime(date_str, "%Y%m%d").strftime("%B %d, %Y")
-        
+
         # Extract key data
         stock_data = raw_data.get("market_dashboard", {})
         sector_data = raw_data.get("sector_sentiment", {})
         global_data = raw_data.get("global_sentiment", {})
-        
+
         accumulation_stocks = stock_data.get("stock_lists", {}).get("accumulation", [])[:6]
         distribution_stocks = stock_data.get("stock_lists", {}).get("distribution", [])[:6]
-        
+
         # Generate stock list HTML
         accumulation_html = ""
         for i, stock in enumerate(accumulation_stocks):
@@ -676,7 +968,7 @@ class PublicationGenerator:
                 <strong>{stock}</strong> ({sector_desc})
                 <div style="font-size: 0.9em; opacity: 0.8;">Sentiment: BULLISH | Pattern: Accumulation | Flow: Positive</div>
             </div>"""
-        
+
         distribution_html = ""
         for i, stock in enumerate(distribution_stocks):
             sector_desc = "Telecom/Services Risk" if i < 3 else "Consumer Weakness"
@@ -685,12 +977,12 @@ class PublicationGenerator:
                 <strong>{stock}</strong> ({sector_desc})
                 <div style="font-size: 0.9em; opacity: 0.8;">Sentiment: BEARISH | Pattern: Distribution | Flow: Negative</div>
             </div>"""
-        
+
         # System status
         system_status = analysis_data.get("system_status", "WARNING")
         critical_count = analysis_data.get("critical_frameworks", 0)
         divergence_pct = analysis_data.get("summary", {}).get("divergence_percentage", 6000)
-        
+
         html_content = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -699,106 +991,106 @@ class PublicationGenerator:
     <title>Daily Market Pulse - {formatted_date}</title>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        
+
         body {{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #333;
         }}
-        
+
         .container {{ max-width: 1200px; margin: 0 auto; padding: 20px; }}
-        
+
         .header {{
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px;
             text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }}
-        
+
         .header h1 {{ font-size: 2.5em; margin-bottom: 10px; font-weight: 300; }}
         .header .subtitle {{ font-size: 1.2em; opacity: 0.9; }}
-        
+
         .hero-metrics {{
             display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px; margin-bottom: 30px;
         }}
-        
+
         .hero-card {{
             background: white; padding: 25px; border-radius: 15px; text-align: center;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: transform 0.3s ease;
         }}
-        
+
         .hero-card:hover {{ transform: translateY(-5px); }}
         .hero-card h3 {{ color: #2c3e50; margin-bottom: 15px; font-size: 1.1em; }}
-        
+
         .hero-value {{ font-size: 2.2em; font-weight: bold; margin-bottom: 10px; }}
         .hero-value.critical {{ color: #e74c3c; }}
         .hero-value.warning {{ color: #f39c12; }}
         .hero-value.normal {{ color: #27ae60; }}
-        
+
         .divergence-alert {{
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
             padding: 25px; border-radius: 15px; margin-bottom: 30px;
             border-left: 5px solid #e74c3c;
         }}
-        
+
         .section {{
             background: white; padding: 25px; border-radius: 15px; margin-bottom: 25px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }}
-        
+
         .section h2 {{
             color: #2c3e50; margin-bottom: 20px; padding-bottom: 10px;
             border-bottom: 2px solid #ecf0f1;
         }}
-        
+
         .framework-grid {{
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px; margin: 20px 0;
         }}
-        
+
         .framework-card {{
             padding: 20px; border-radius: 10px; border-left: 5px solid #3498db;
         }}
-        
+
         .framework-card.critical {{ border-left-color: #e74c3c; background: #ffeaa7; }}
         .framework-card.warning {{ border-left-color: #f39c12; background: #fff3cd; }}
         .framework-card.normal {{ border-left-color: #27ae60; background: #e8f5e8; }}
-        
+
         .stock-grid {{
             display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 30px 0;
         }}
-        
+
         .stock-section {{
             padding: 25px; border-radius: 15px; color: white;
         }}
-        
+
         .accumulation {{ background: linear-gradient(135deg, #27ae60, #2ecc71); }}
         .distribution {{ background: linear-gradient(135deg, #e74c3c, #c0392b); }}
-        
+
         .sector-grid {{
             display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px; margin: 20px 0;
         }}
-        
+
         .sector-card {{
             padding: 15px; border-radius: 10px; text-align: center;
             color: white; font-weight: bold;
         }}
-        
+
         .sector-card.bullish {{ background: linear-gradient(135deg, #27ae60, #2ecc71); }}
         .sector-card.bearish {{ background: linear-gradient(135deg, #e74c3c, #c0392b); }}
         .sector-card.neutral {{ background: linear-gradient(135deg, #f39c12, #e67e22); }}
-        
+
         .action-items {{
             background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
             color: white; padding: 25px; border-radius: 15px; margin-top: 30px;
         }}
-        
+
         .action-list {{ list-style: none; }}
         .action-list li {{ margin: 10px 0; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.2); }}
-        
+
         .footer {{ text-align: center; color: #7f8c8d; margin-top: 30px; padding: 20px; }}
-        
+
         @media (max-width: 768px) {{
             .hero-metrics, .stock-grid {{ grid-template-columns: 1fr; }}
             .header h1 {{ font-size: 2em; }}
@@ -821,19 +1113,19 @@ class PublicationGenerator:
                 <div class="hero-value {system_status.lower()}">{system_status}</div>
                 <p>{critical_count}/7 Critical Frameworks</p>
             </div>
-            
+
             <div class="hero-card">
                 <h3>🌍 Global vs Local Sentiment</h3>
                 <div class="hero-value critical">{divergence_pct:,.0f}%</div>
                 <p>Divergence: {global_data.get('sentiment_score', 6.0)} vs {raw_data.get('market_trend', {}).get('sentiment_score', 0.09)}</p>
             </div>
-            
+
             <div class="hero-card">
                 <h3>💳 Credit Data Integrity</h3>
                 <div class="hero-value critical">126%</div>
                 <p>HYG Spread Divergence</p>
             </div>
-            
+
             <div class="hero-card">
                 <h3>🔬 MRN Regime Status</h3>
                 <div class="hero-value warning">{raw_data.get('nifty_mrn', {}).get('mi_duration', 14)}/21</div>
@@ -850,9 +1142,9 @@ class PublicationGenerator:
         <!-- Framework Analysis -->
         <div class="section">
             <h2>🔍 Seven-Framework Contradiction Analysis</h2>
-            
+
             <div class="framework-grid">'''
-        
+
         # Add framework cards
         for name, framework_data in analysis_data.get("frameworks", {}).items():
             status_class = framework_data["status"].lower()
@@ -864,7 +1156,7 @@ class PublicationGenerator:
                     <p><strong>Threshold:</strong> {framework_data["threshold"]}</p>
                     <p>{framework_data["implication"]}</p>
                 </div>'''
-        
+
         html_content += '''
             </div>
         </div>
@@ -872,7 +1164,7 @@ class PublicationGenerator:
         <!-- Stock Intelligence -->
         <div class="section">
             <h2>📈 Daily Stock Intelligence</h2>
-            
+
             <div class="stock-grid">
                 <div class="stock-section accumulation">
                     <h3>🔥 TOP ACCUMULATION TARGETS</h3>
@@ -891,8 +1183,9 @@ class PublicationGenerator:
         <!-- Sector Intelligence -->
         <div class="section">
             <h2>🏭 Sector Intelligence Dashboard</h2>
-            <p><strong>Assessment:</strong> ''' + sector_data.get('overall_assessment', 'Moderately Bearish and Deteriorating') + '''</p>
-            
+            <p><strong>Assessment:</strong> ''' + sector_data.get('overall_assessment',
+                                                                  'Moderately Bearish and Deteriorating') + '''</p>
+
             <div class="sector-grid">
                 <div class="sector-card bullish">
                     <h4>POWER</h4>
@@ -922,7 +1215,8 @@ class PublicationGenerator:
             <h3>⚡ IMMEDIATE ACTION ITEMS (Next 4 Hours)</h3>
             <ul class="action-list">
                 <li><strong>🎯 Master Arbitrage:</strong> Position across all ''' + str(critical_count) + ''' framework contradictions</li>
-                <li><strong>📈 Stock Actions:</strong> Accumulate Power sector (''' + ', '.join(accumulation_stocks[:3]) + '''), Exit Telecom (''' + ', '.join(distribution_stocks[:2]) + ''')</li>
+                <li><strong>📈 Stock Actions:</strong> Accumulate Power sector (''' + ', '.join(
+            accumulation_stocks[:3]) + '''), Exit Telecom (''' + ', '.join(distribution_stocks[:2]) + ''')</li>
                 <li><strong>💳 Credit Short:</strong> HYG spread expected to widen to calculated 7.42%</li>
                 <li><strong>🔬 MRN Transition:</strong> Prepare for regime change (volatility expansion)</li>
                 <li><strong>🏭 Sector Rotation:</strong> Long Power/FMCG, Short Consumer Services/Telecom</li>
@@ -934,28 +1228,29 @@ class PublicationGenerator:
 
         <!-- Footer -->
         <div class="footer">
-            <p><strong>Market Intelligence Publication System</strong> | Generated: ''' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '''</p>
+            <p><strong>Market Intelligence Publication System</strong> | Generated: ''' + datetime.now().strftime(
+            '%Y-%m-%d %H:%M:%S') + '''</p>
             <p>Sources: 9 Integrated Reports • 7 Analytical Frameworks • Real-Time Intelligence</p>
             <p><strong>Next Update:</strong> Tomorrow 06:00 IST | <strong>Emergency Alerts:</strong> Real-Time</p>
         </div>
     </div>
 </body>
 </html>'''
-        
+
         return html_content
 
     def generate_weekly_publication(self, analysis_data: Dict, raw_data: Dict, week_ending: str) -> str:
         """Generate comprehensive weekly intelligence report"""
         formatted_date = datetime.strptime(week_ending, "%Y%m%d").strftime("%B %d, %Y")
-        
+
         # Calculate weekly data
         stock_data = raw_data.get("market_dashboard", {})
         sector_data = raw_data.get("sector_sentiment", {})
         global_data = raw_data.get("global_sentiment", {})
-        
+
         accumulation_stocks = stock_data.get("stock_lists", {}).get("accumulation", [])[:6]
         distribution_stocks = stock_data.get("stock_lists", {}).get("distribution", [])[:6]
-        
+
         # Generate stock performance data (simulated for demonstration)
         stock_performance = {
             "winners": [
@@ -971,7 +1266,7 @@ class PublicationGenerator:
                 {"symbol": "PAYTM", "return": -15.2, "thesis": "Regulatory headwinds"}
             ]
         }
-        
+
         html_content = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -980,133 +1275,133 @@ class PublicationGenerator:
     <title>Weekly Market Intelligence Report - {formatted_date}</title>
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-        
+
         body {{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.8; background: #f8f9fa; color: #2c3e50;
         }}
-        
+
         .container {{ max-width: 1400px; margin: 0 auto; padding: 40px 20px; }}
-        
+
         .header {{
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white; padding: 50px; border-radius: 20px; margin-bottom: 40px;
             text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }}
-        
+
         .header h1 {{ font-size: 3em; margin-bottom: 20px; font-weight: 300; }}
         .header .subtitle {{ font-size: 1.4em; opacity: 0.9; }}
-        
+
         .executive-summary {{
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white; padding: 40px; border-radius: 20px; margin-bottom: 40px;
         }}
-        
+
         .key-findings {{
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px; margin-top: 30px;
         }}
-        
+
         .finding-card {{
             background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px;
             backdrop-filter: blur(10px);
         }}
-        
+
         .section {{
             background: white; padding: 40px; border-radius: 20px; margin-bottom: 40px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }}
-        
+
         .section h2 {{
             color: #2c3e50; margin-bottom: 30px; padding-bottom: 15px;
             border-bottom: 3px solid #3498db; font-size: 2em;
         }}
-        
+
         .framework-grid {{
             display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 25px; margin: 30px 0;
         }}
-        
+
         .framework-card {{
             border: 2px solid #ecf0f1; border-radius: 15px; padding: 25px;
             transition: all 0.3s ease;
         }}
-        
+
         .framework-card.critical {{
             border-color: #e74c3c; background: linear-gradient(135deg, #fff, #ffeaa7);
         }}
-        
+
         .framework-card.warning {{
             border-color: #f39c12; background: linear-gradient(135deg, #fff, #fff3cd);
         }}
-        
+
         .framework-card.normal {{
             border-color: #27ae60; background: linear-gradient(135deg, #fff, #e8f5e8);
         }}
-        
+
         .metric-value {{ font-size: 2.5em; font-weight: bold; margin: 15px 0; }}
         .metric-value.critical {{ color: #e74c3c; }}
         .metric-value.warning {{ color: #f39c12; }}
         .metric-value.bullish {{ color: #27ae60; }}
-        
+
         .stock-performance-grid {{
             display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 30px 0;
         }}
-        
+
         .performance-section {{
             padding: 25px; border-radius: 15px; color: white;
         }}
-        
+
         .winners {{ background: linear-gradient(135deg, #00b894, #00a085); }}
         .losers {{ background: linear-gradient(135deg, #fd79a8, #e84393); }}
-        
+
         .stock-item {{
             background: rgba(255,255,255,0.15); padding: 15px; margin: 10px 0;
             border-radius: 10px; backdrop-filter: blur(10px);
         }}
-        
+
         .opportunities-grid {{
             display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 25px; margin: 30px 0;
         }}
-        
+
         .opportunity-card {{
             background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
             color: white; padding: 30px; border-radius: 15px;
         }}
-        
+
         .timeline-section {{
             background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
             color: white; padding: 40px; border-radius: 20px; margin: 40px 0;
         }}
-        
+
         .timeline-grid {{
             display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px; margin-top: 30px;
         }}
-        
+
         .timeline-card {{
             background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px;
             backdrop-filter: blur(10px);
         }}
-        
+
         .table {{
             width: 100%; border-collapse: collapse; margin: 20px 0;
             background: white; border-radius: 10px; overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }}
-        
+
         .table th, .table td {{
             padding: 15px; text-align: left; border-bottom: 1px solid #ecf0f1;
         }}
-        
+
         .table th {{
             background: linear-gradient(135deg, #3498db, #2980b9);
             color: white; font-weight: bold;
         }}
-        
+
         .footer {{ text-align: center; color: #7f8c8d; margin-top: 50px; padding: 30px; background: white; border-radius: 15px; }}
-        
+
         @media (max-width: 768px) {{
             .framework-grid, .stock-performance-grid, .opportunities-grid {{ grid-template-columns: 1fr; }}
             .header h1 {{ font-size: 2.5em; }}
@@ -1128,26 +1423,26 @@ class PublicationGenerator:
             <p style="font-size: 1.3em; line-height: 1.6; margin-bottom: 25px;">
                 <strong>CRITICAL DISCOVERY:</strong> This week marks an unprecedented convergence of contradictions across all seven analytical frameworks, creating the largest systematic arbitrage opportunity in modern financial history. The simultaneous breakdown of traditional market relationships presents exceptional opportunities for sophisticated investors.
             </p>
-            
+
             <div class="key-findings">
                 <div class="finding-card">
                     <h3>🌍 Global-Local Divergence</h3>
                     <div class="metric-value critical">{analysis_data.get('summary', {}).get('divergence_percentage', 6000):,.0f}%</div>
                     <p>Global sentiment vs Local sentiment - largest divergence on record</p>
                 </div>
-                
+
                 <div class="finding-card">
                     <h3>📊 Economic Contradiction</h3>
                     <div class="metric-value warning">75%</div>
                     <p>Bearish indicators vs bullish economic assessment - systematic disconnect</p>
                 </div>
-                
+
                 <div class="finding-card">
                     <h3>💳 Data Integrity Crisis</h3>
                     <div class="metric-value critical">126%</div>
                     <p>HYG spread calculation divergence - infrastructure failure detected</p>
                 </div>
-                
+
                 <div class="finding-card">
                     <h3>🔬 Regime Transition</h3>
                     <div class="metric-value warning">{analysis_data.get('frameworks', {}).get('quantitative_regime', {}).get('level', 67):.0f}%</div>
@@ -1159,9 +1454,9 @@ class PublicationGenerator:
         <!-- Framework Analysis -->
         <div class="section">
             <h2>🔍 Seven-Framework Contradiction Analysis</h2>
-            
+
             <div class="framework-grid">'''
-        
+
         # Add framework analysis
         for name, framework_data in analysis_data.get("frameworks", {}).items():
             status_class = framework_data["status"].lower()
@@ -1174,7 +1469,7 @@ class PublicationGenerator:
                     <p><strong>Threshold:</strong> {framework_data["threshold"]}</p>
                     <p>{framework_data["implication"]}</p>
                 </div>'''
-        
+
         html_content += '''
             </div>
         </div>
@@ -1182,12 +1477,12 @@ class PublicationGenerator:
         <!-- Weekly Stock Performance -->
         <div class="section">
             <h2>📈 Weekly Stock Performance & Attribution Analysis</h2>
-            
+
             <div class="stock-performance-grid">
                 <div class="performance-section winners">
                     <h3>🏆 TOP WEEKLY WINNERS</h3>
                     <p style="margin-bottom: 20px;">Based on 7-day performance and our recommendations</p>'''
-        
+
         # Add winners
         for stock in stock_performance["winners"]:
             html_content += f'''
@@ -1198,14 +1493,14 @@ class PublicationGenerator:
                         </div>
                         <div style="font-size: 0.9em; opacity: 0.9;">{stock["thesis"]}</div>
                     </div>'''
-        
+
         html_content += '''
                 </div>
 
                 <div class="performance-section losers">
                     <h3>⚠️ TOP WEEKLY DECLINES</h3>
                     <p style="margin-bottom: 20px;">Stocks we recommended avoiding - losses prevented</p>'''
-        
+
         # Add losers
         for stock in stock_performance["losers"]:
             html_content += f'''
@@ -1216,7 +1511,7 @@ class PublicationGenerator:
                         </div>
                         <div style="font-size: 0.9em; opacity: 0.9;">{stock["thesis"]}</div>
                     </div>'''
-        
+
         html_content += '''
                 </div>
             </div>
@@ -1268,9 +1563,9 @@ class PublicationGenerator:
         <!-- Strategic Investment Opportunities -->
         <div class="section">
             <h2>🎯 Strategic Investment Opportunities</h2>
-            
+
             <div class="opportunities-grid">'''
-        
+
         # Add opportunities
         for opportunity in analysis_data.get("opportunities", []):
             html_content += f'''
@@ -1281,7 +1576,7 @@ class PublicationGenerator:
                     <p><strong>Timeline:</strong> {opportunity["timeline"]}</p>
                     <p><strong>Confidence:</strong> {opportunity["confidence"]}</p>
                 </div>'''
-        
+
         html_content += '''
             </div>
         </div>
@@ -1289,7 +1584,7 @@ class PublicationGenerator:
         <!-- Timeline & Catalyst Analysis -->
         <div class="timeline-section">
             <h2>⏰ Timeline & Catalyst Framework</h2>
-            
+
             <div class="timeline-grid">
                 <div class="timeline-card">
                     <h3>Immediate (1-7 Days)</h3>
@@ -1297,21 +1592,21 @@ class PublicationGenerator:
                     <p><strong>Data Quality:</strong> Treasury corruption resolution</p>
                     <p><strong>Employment Data:</strong> Further deterioration risk</p>
                 </div>
-                
+
                 <div class="timeline-card">
                     <h3>Short-term (1-4 Weeks)</h3>
                     <p><strong>Credit Resolution:</strong> Spread calculation correction</p>
                     <p><strong>Sector Rotation:</strong> Momentum continuation/reversal</p>
                     <p><strong>Framework Convergence:</strong> Individual system corrections</p>
                 </div>
-                
+
                 <div class="timeline-card">
                     <h3>Medium-term (1-3 Months)</h3>
                     <p><strong>Global-Local:</strong> Sentiment convergence expected</p>
                     <p><strong>Economic Reality:</strong> Assessment vs indicator resolution</p>
                     <p><strong>Model Adaptation:</strong> Framework updates to new paradigm</p>
                 </div>
-                
+
                 <div class="timeline-card">
                     <h3>Long-term (3-6 Months)</h3>
                     <p><strong>Structural Changes:</strong> New analytical requirements</p>
@@ -1324,7 +1619,7 @@ class PublicationGenerator:
         <!-- Next Week Outlook -->
         <div class="section">
             <h2>🔮 Next Week Outlook & Strategic Priorities</h2>
-            
+
             <div style="background: linear-gradient(135deg, #00b894 0%, #00a085 100%); color: white; padding: 30px; border-radius: 15px; text-align: center;">
                 <h3>💡 Strategic Recommendation Summary</h3>
                 <p style="font-size: 1.2em; margin: 15px 0;">
@@ -1337,9 +1632,13 @@ class PublicationGenerator:
         <!-- Footer -->
         <div class="footer">
             <h3><strong>Market Intelligence Publication System</strong></h3>
-            <p>Weekly Report #''' + str(datetime.now().isocalendar()[1]) + ''' | Generated: ''' + datetime.now().strftime('%B %d, %Y, %H:%M:%S IST') + '''</p>
+            <p>Weekly Report #''' + str(
+            datetime.now().isocalendar()[1]) + ''' | Generated: ''' + datetime.now().strftime(
+            '%B %d, %Y, %H:%M:%S IST') + '''</p>
             <p><strong>Data Sources:</strong> 9 Integrated Reports • 7 Analytical Frameworks • Real-Time Intelligence</p>
-            <p><strong>Next Weekly Report:</strong> ''' + (datetime.strptime(week_ending, "%Y%m%d") + timedelta(days=7)).strftime('%B %d, %Y') + ''' | <strong>Daily Updates:</strong> 06:00 IST</p>
+            <p><strong>Next Weekly Report:</strong> ''' + (
+                                    datetime.strptime(week_ending, "%Y%m%d") + timedelta(days=7)).strftime(
+            '%B %d, %Y') + ''' | <strong>Daily Updates:</strong> 06:00 IST</p>
             <p style="margin-top: 20px; font-style: italic;">
                 "Transforming market complexity into investment clarity through multi-dimensional intelligence"
             </p>
@@ -1347,18 +1646,19 @@ class PublicationGenerator:
     </div>
 </body>
 </html>'''
-        
+
         return html_content
+
 
 class MarketIntelligencePublisher:
     """
     Main orchestrator class for the Market Intelligence Publication System
     """
-    
+
     def __init__(self):
         self.engine = MarketIntelligenceEngine()
         self.generator = PublicationGenerator(self.engine)
-        
+
     def is_friday(self, date_str: str) -> bool:
         """Check if given date is a Friday"""
         try:
@@ -1367,32 +1667,32 @@ class MarketIntelligencePublisher:
         except ValueError:
             logger.error(f"Invalid date format: {date_str}")
             return False
-    
+
     def publish_daily(self, date_str: str) -> bool:
         """Generate and save daily publication"""
         try:
             logger.info(f"Starting daily publication generation for {date_str}")
-            
+
             # Ingest data
             raw_data, validation_report = self.engine.ingest_all_data(date_str)
-            
+
             if validation_report["success_count"] == 0:
                 logger.error("No data sources available - cannot generate publication")
                 return False
-            
+
             # Analyze frameworks
             analysis_data = self.engine.calculate_master_divergence_index(raw_data)
-            
+
             # Generate HTML
             html_content = self.generator.generate_daily_publication(analysis_data, raw_data, date_str)
-            
+
             # Save publication
             output_path = f"{self.engine.output_dir}/daily/daily_market_pulse_{date_str}.html"
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(html_content)
-            
+
             logger.info(f"Daily publication saved to: {output_path}")
-            
+
             # Save analysis data
             analysis_path = f"{self.engine.output_dir}/daily/analysis_data_{date_str}.json"
             with open(analysis_path, 'w', encoding='utf-8') as f:
@@ -1402,39 +1702,39 @@ class MarketIntelligencePublisher:
                     "validation_report": validation_report,
                     "timestamp": datetime.now().isoformat()
                 }, f, indent=2, default=str)
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Error generating daily publication: {str(e)}")
             logger.error(traceback.format_exc())
             return False
-    
+
     def publish_weekly(self, date_str: str) -> bool:
         """Generate and save weekly publication"""
         try:
             logger.info(f"Starting weekly publication generation for week ending {date_str}")
-            
+
             # Ingest data
             raw_data, validation_report = self.engine.ingest_all_data(date_str)
-            
+
             if validation_report["success_count"] == 0:
                 logger.error("No data sources available - cannot generate weekly publication")
                 return False
-            
+
             # Analyze frameworks
             analysis_data = self.engine.calculate_master_divergence_index(raw_data)
-            
+
             # Generate HTML
             html_content = self.generator.generate_weekly_publication(analysis_data, raw_data, date_str)
-            
+
             # Save publication
             output_path = f"{self.engine.output_dir}/weekly/weekly_intelligence_report_{date_str}.html"
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(html_content)
-            
+
             logger.info(f"Weekly publication saved to: {output_path}")
-            
+
             # Save analysis data
             analysis_path = f"{self.engine.output_dir}/weekly/weekly_analysis_{date_str}.json"
             with open(analysis_path, 'w', encoding='utf-8') as f:
@@ -1444,42 +1744,42 @@ class MarketIntelligencePublisher:
                     "validation_report": validation_report,
                     "timestamp": datetime.now().isoformat()
                 }, f, indent=2, default=str)
-            
+
             return True
-            
+
         except Exception as e:
             logger.error(f"Error generating weekly publication: {str(e)}")
             logger.error(traceback.format_exc())
             return False
-    
+
     def publish(self, date_str: str) -> Dict[str, bool]:
         """Main publish method - generates publications based on date"""
         results = {"daily": False, "weekly": False}
-        
+
         try:
             # Validate date format
             datetime.strptime(date_str, "%Y%m%d")
         except ValueError:
             logger.error(f"Invalid date format: {date_str}. Expected YYYYMMDD")
             return results
-        
+
         # Always generate daily publication
         results["daily"] = self.publish_daily(date_str)
-        
+
         # Generate weekly publication if it's Friday
         if self.is_friday(date_str):
             logger.info(f"{date_str} is a Friday - generating weekly publication")
             results["weekly"] = self.publish_weekly(date_str)
         else:
             logger.info(f"{date_str} is not a Friday - skipping weekly publication")
-        
+
         return results
-    
+
     def get_publication_status(self, date_str: str) -> Dict[str, Any]:
         """Get status of publications for a given date"""
         daily_path = f"{self.engine.output_dir}/daily/daily_market_pulse_{date_str}.html"
         weekly_path = f"{self.engine.output_dir}/weekly/weekly_intelligence_report_{date_str}.html"
-        
+
         status = {
             "date": date_str,
             "is_friday": self.is_friday(date_str),
@@ -1487,53 +1787,151 @@ class MarketIntelligencePublisher:
                 "exists": os.path.exists(daily_path),
                 "path": daily_path,
                 "size": os.path.getsize(daily_path) if os.path.exists(daily_path) else 0,
-                "modified": datetime.fromtimestamp(os.path.getmtime(daily_path)).isoformat() if os.path.exists(daily_path) else None
+                "modified": datetime.fromtimestamp(os.path.getmtime(daily_path)).isoformat() if os.path.exists(
+                    daily_path) else None
             },
             "weekly": {
                 "exists": os.path.exists(weekly_path),
                 "path": weekly_path,
                 "size": os.path.getsize(weekly_path) if os.path.exists(weekly_path) else 0,
-                "modified": datetime.fromtimestamp(os.path.getmtime(weekly_path)).isoformat() if os.path.exists(weekly_path) else None
+                "modified": datetime.fromtimestamp(os.path.getmtime(weekly_path)).isoformat() if os.path.exists(
+                    weekly_path) else None
             }
         }
-        
+
         return status
+
 
 def main():
     """Main execution function with command line interface"""
-    import sys
-    
-    publisher = MarketIntelligencePublisher()
-    
-    if len(sys.argv) != 2:
-        print("Usage: python publish.py YYYYMMDD")
-        print("Example: python publish.py 20250603")
+
+    # Initialize publisher with error handling
+    try:
+        publisher = MarketIntelligencePublisher()
+    except Exception as e:
+        print(f"❌ Error initializing system: {str(e)}")
+        print("Please check that all directories can be created and dependencies are installed.")
         sys.exit(1)
-    
+
+    if len(sys.argv) < 2 or len(sys.argv) > 3:
+        print("📊 Market Intelligence Publication System")
+        print("=" * 50)
+        print("Usage: python publish.py YYYYMMDD [--check-sources]")
+        print("Example: python publish.py 20250603")
+        print("         python publish.py 20250603 --check-sources")
+        print("\nCommands:")
+        print("• Without flags: Generate publications")
+        print("• --check-sources: Only check data source availability")
+        print("\nThis will generate:")
+        print("• Daily Market Pulse (always)")
+        print("• Weekly Intelligence Report (if date is Friday)")
+        sys.exit(1)
+
     date_str = sys.argv[1]
-    
+    check_sources_only = len(sys.argv) == 3 and sys.argv[2] == "--check-sources"
+
     try:
         # Validate date format
-        datetime.strptime(date_str, "%Y%m%d")
+        date_obj = datetime.strptime(date_str, "%Y%m%d")
+        formatted_date = date_obj.strftime("%B %d, %Y")
     except ValueError:
-        print(f"Error: Invalid date format '{date_str}'. Expected YYYYMMDD")
+        print(f"❌ Error: Invalid date format '{date_str}'. Expected YYYYMMDD")
+        print("Example: 20250603 for June 3, 2025")
         sys.exit(1)
-    
-    print(f"🚀 Starting Market Intelligence Publication Generation for {date_str}")
-    print("="*70)
-    
-    # Generate publications
-    results = publisher.publish(date_str)
-    
+
+    print(f"🚀 Market Intelligence Publication System")
+    print("=" * 70)
+    print(f"📅 Processing Date: {formatted_date}")
+    print(f"📁 Output Directory: {publisher.engine.output_dir}")
+    print("=" * 70)
+
+    # Check data sources
+    try:
+        raw_data, validation_report = publisher.engine.ingest_all_data(date_str)
+
+        print(f"\n📊 Data Source Analysis:")
+        print("-" * 40)
+
+        real_count = 0
+        fallback_count = 0
+        error_count = 0
+
+        for source, status in validation_report.get("source_status", {}).items():
+            source_display = source.replace("_", " ").title()
+            if "REAL" in status:
+                print(f"✅ {source_display:<20} Real data available")
+                real_count += 1
+            elif "FALLBACK" in status:
+                print(f"⚠️  {source_display:<20} Using fallback data")
+                fallback_count += 1
+            else:
+                print(f"❌ {source_display:<20} Error: {status[:30]}...")
+                error_count += 1
+
+        print(f"\n📈 Data Quality Summary:")
+        print(f"   ✅ Real sources: {real_count}/{len(validation_report.get('source_status', {}))}")
+        print(f"   ⚠️  Fallback sources: {fallback_count}")
+        print(f"   ❌ Error sources: {error_count}")
+
+        if fallback_count > 0:
+            print(f"\n⚠️  IMPORTANT: {fallback_count} sources using fallback data!")
+            print("   Generated publications will use default/sample data.")
+            print("   Please check the following file paths exist:")
+
+            # Convert dates for proper display
+            date_obj = datetime.strptime(date_str, "%Y%m%d")
+            date_formatted = date_obj.strftime("%Y-%m-%d")
+            fy_start = publisher.engine.get_financial_year_start(date_str)
+
+            for source, status in validation_report.get("source_status", {}).items():
+                if "FALLBACK" in status:
+                    if source == "news_dashboard":
+                        file_path = publisher.engine.data_sources[source].format(
+                            date=date_str,
+                            date_formatted=date_formatted,
+                            fy_start=fy_start
+                        )
+                    elif source in ["sector_sentiment", "economic_indicators"]:
+                        file_path = publisher.engine.data_sources[source].format(
+                            date=date_str,
+                            date_formatted=date_formatted,
+                            fy_start=fy_start
+                        )
+                    else:
+                        file_path = publisher.engine.data_sources[source].format(
+                            date=date_str,
+                            date_formatted=date_formatted,
+                            fy_start=fy_start
+                        )
+                    print(f"   📂 {file_path}")
+
+        if check_sources_only:
+            print(f"\n🔍 Source check complete for {formatted_date}")
+            return
+
+    except Exception as e:
+        print(f"❌ Error checking data sources: {str(e)}")
+        if check_sources_only:
+            sys.exit(1)
+
+    # Generate publications (if not just checking sources)
+    try:
+        results = publisher.publish(date_str)
+
+    except Exception as e:
+        print(f"❌ Critical error during publication generation: {str(e)}")
+        print(f"📋 Traceback: {traceback.format_exc()}")
+        sys.exit(1)
+
     # Report results
     print("\n📊 Publication Results:")
     print("-" * 30)
-    
+
     if results["daily"]:
         print("✅ Daily Market Pulse: Generated successfully")
     else:
         print("❌ Daily Market Pulse: Generation failed")
-    
+
     if publisher.is_friday(date_str):
         if results["weekly"]:
             print("✅ Weekly Intelligence Report: Generated successfully")
@@ -1541,21 +1939,39 @@ def main():
             print("❌ Weekly Intelligence Report: Generation failed")
     else:
         print("ℹ️  Weekly Intelligence Report: Not generated (not Friday)")
-    
-    # Show status
-    status = publisher.get_publication_status(date_str)
-    print(f"\n📁 Output Status:")
-    print("-" * 20)
-    print(f"Daily: {'✅' if status['daily']['exists'] else '❌'} {status['daily']['path']}")
-    if status['daily']['exists']:
-        print(f"       Size: {status['daily']['size']:,} bytes")
-    
-    if status['is_friday']:
-        print(f"Weekly: {'✅' if status['weekly']['exists'] else '❌'} {status['weekly']['path']}")
-        if status['weekly']['exists']:
-            print(f"        Size: {status['weekly']['size']:,} bytes")
-    
-    print("\n🎯 Market Intelligence Publication System - Complete")
+
+    # Show detailed status
+    try:
+        status = publisher.get_publication_status(date_str)
+        print(f"\n📁 Output Status:")
+        print("-" * 20)
+        print(f"Daily: {'✅' if status['daily']['exists'] else '❌'} {status['daily']['path']}")
+        if status['daily']['exists']:
+            print(f"       Size: {status['daily']['size']:,} bytes")
+            print(f"       Modified: {status['daily']['modified']}")
+
+        if status['is_friday']:
+            print(f"Weekly: {'✅' if status['weekly']['exists'] else '❌'} {status['weekly']['path']}")
+            if status['weekly']['exists']:
+                print(f"        Size: {status['weekly']['size']:,} bytes")
+                print(f"        Modified: {status['weekly']['modified']}")
+    except Exception as e:
+        print(f"⚠️  Warning: Could not get detailed status: {str(e)}")
+
+    # Success summary
+    success_count = sum(results.values())
+    total_expected = 2 if publisher.is_friday(date_str) else 1
+
+    print(f"\n🎯 Summary: {success_count}/{total_expected} publications generated successfully")
+
+    if success_count == total_expected:
+        print("🎉 Market Intelligence Publication System - Complete Success!")
+    elif success_count > 0:
+        print("⚠️  Market Intelligence Publication System - Partial Success")
+    else:
+        print("❌ Market Intelligence Publication System - Failed")
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
