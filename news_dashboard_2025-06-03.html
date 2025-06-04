@@ -1,0 +1,471 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>News Dashboard - 2025-06-03</title>
+            <style>
+                body { 
+                    font-family: Arial, sans-serif; 
+                    line-height: 1.6; 
+                    margin: 0; 
+                    padding: 0;
+                    background-color: #f8f9fa;
+                }
+                .container { 
+                    max-width: 1200px; 
+                    margin: 0 auto; 
+                    padding: 20px; 
+                }
+                .header { 
+                    background-color: #343a40; 
+                    color: white; 
+                    padding: 20px; 
+                    margin-bottom: 20px; 
+                    border-radius: 5px;
+                }
+                .header h1 { 
+                    margin: 0; 
+                    font-size: 24px; 
+                }
+                .summary-box { 
+                    background-color: white; 
+                    border-radius: 5px; 
+                    padding: 15px; 
+                    margin-bottom: 20px; 
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+                }
+                .mood-meter { 
+                    display: flex; 
+                    height: 30px; 
+                    margin: 15px 0; 
+                    border-radius: 5px; 
+                    overflow: hidden; 
+                }
+                .mood-negative { 
+                    background-color: #ff6b6b; 
+                    flex: 10; 
+                }
+                .mood-neutral { 
+                    background-color: #ffe66d; 
+                    flex: 10; 
+                }
+                .mood-positive { 
+                    background-color: #6bff6b; 
+                    flex: 10; 
+                }
+                .mood-marker { 
+                    position: relative; 
+                    width: 0; 
+                    height: 0; 
+                    border-left: 8px solid transparent;
+                    border-right: 8px solid transparent;
+                    border-top: 8px solid #343a40;
+                    margin-left: 27.0%;
+                }
+                .news-grid { 
+                    display: grid; 
+                    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+                    gap: 20px; 
+                }
+                .news-card { 
+                    background-color: white; 
+                    border-radius: 5px; 
+                    padding: 15px; 
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+                    display: flex;
+                    flex-direction: column;
+                }
+                .news-card h3 { 
+                    margin-top: 0; 
+                    font-size: 18px; 
+                }
+                .news-source { 
+                    font-size: 14px; 
+                    color: #666; 
+                    margin-bottom: 10px; 
+                }
+                .news-content { 
+                    flex-grow: 1;
+                    font-size: 14px; 
+                    margin-bottom: 15px; 
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 4;
+                    -webkit-box-orient: vertical;
+                }
+                .news-stats { 
+                    font-size: 12px; 
+                    display: flex; 
+                    justify-content: space-between; 
+                    padding-top: 10px;
+                    border-top: 1px solid #eee;
+                }
+                .news-category {
+                    display: inline-block;
+                    padding: 3px 8px;
+                    border-radius: 12px;
+                    font-size: 11px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    margin-right: 5px;
+                }
+                .positive { background-color: rgba(46, 204, 113, 0.2); color: #27ae60; }
+                .negative { background-color: rgba(231, 76, 60, 0.2); color: #c0392b; }
+                .neutral { background-color: rgba(241, 196, 15, 0.2); color: #f39c12; }
+                .critical { background-color: rgba(155, 89, 182, 0.2); color: #8e44ad; }
+                .filter-controls {
+                    margin-bottom: 20px;
+                    padding: 15px;
+                    background-color: white;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+                .filter-btn {
+                    background-color: #f8f9fa;
+                    border: 1px solid #ddd;
+                    border-radius: 20px;
+                    padding: 5px 15px;
+                    margin-right: 10px;
+                    cursor: pointer;
+                    font-size: 14px;
+                }
+                .filter-btn:hover, .filter-btn.active {
+                    background-color: #343a40;
+                    color: white;
+                }
+                .timestamp {
+                    font-size: 12px;
+                    color: #666;
+                    margin-top: 5px;
+                }
+                #news-count {
+                    font-weight: bold;
+                }
+                .footer {
+                    margin-top: 30px;
+                    text-align: center;
+                    font-size: 12px;
+                    color: #666;
+                    padding: 20px;
+                }
+                @media (max-width: 768px) {
+                    .news-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>Market News Dashboard - 2025-06-03</h1>
+                    <p class="timestamp">Generated on: 2025-06-03 20:34:40</p>
+                </div>
+
+                <div class="summary-box">
+                    <h2>Market Summary</h2>
+                    <p>The market sentiment is neutral with mixed signals. Negative news significantly outweighs positive news.</p>
+                    <h3>Market Mood Index: -1.0</h3>
+                    <div class="mood-meter">
+                        <div class="mood-negative"></div>
+                        <div class="mood-neutral"></div>
+                        <div class="mood-positive"></div>
+                    </div>
+                    <div class="mood-marker"></div>
+                </div>
+
+                <div class="filter-controls">
+                    <h3>Filter News <span id="news-count">(15 items)</span></h3>
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="positive">Positive</button>
+                    <button class="filter-btn" data-filter="negative">Negative</button>
+                    <button class="filter-btn" data-filter="neutral">Neutral</button>
+                    <button class="filter-btn" data-filter="critical">Critical</button>
+                </div>
+
+                <div class="news-grid">
+        
+                    <div class="news-card negative-item">
+                        <h3>BPCL, Indigo Paints, Apollo Tyres, other crude-sensitive stocks fall up to 2% as oil prices climb - TradingView | Article from TradingView: BPCL, Indigo Paints, Apollo Tyres, other crude-sensitive stocks fall up to 2% as oil prices climb</h3>
+                        <div class="news-source">TradingView</div>
+                        <div class="news-content">Article from TradingView: BPCL, Indigo Paints, Apollo Tyres, other crude-sensitive stocks fall up to 2% as oil prices climb</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category negative">Negative-Normal</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: -1.00">Sentiment: Negative</span> | 
+                                <span title="Criticality Score: 0.30">Criticality: 0.30</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>‘Give your best offers by…’: Donald Trump administration pushes countries to urgently finalise trade deal - Times of India | Article from Times of India: ‘Give your best offers by…’: Donald Trump administration pushes countries to urgently finalise trade deal</h3>
+                        <div class="news-source">Times of India</div>
+                        <div class="news-content">Article from Times of India: ‘Give your best offers by…’: Donald Trump administration pushes countries to urgently finalise trade deal</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.14">Criticality: 0.14</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>Stock Market Highlights: Sensex settles 636 pts lower, Nifty below 24,550; Bajaj twins down 2% each - The Economic Times | Article from The Economic Times: Stock Market Highlights: Sensex settles 636 pts lower, Nifty below 24,550; Bajaj twins down 2% each</h3>
+                        <div class="news-source">The Economic Times</div>
+                        <div class="news-content">Article from The Economic Times: Stock Market Highlights: Sensex settles 636 pts lower, Nifty below 24,550; Bajaj twins down 2% each</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>U.S. stock futures edge lower; trade tariffs, economic data in focus - Latest news from Azerbaijan | Article from Latest news from Azerbaijan: U.S. stock futures edge lower; trade tariffs, economic data in focus</h3>
+                        <div class="news-source">Latest news from Azerbaijan</div>
+                        <div class="news-content">Article from Latest news from Azerbaijan: U.S. stock futures edge lower; trade tariffs, economic data in focus</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>4 U.S. Economic Indicators This Week That Could Impact the Crypto Market! - pintu crypto | Article from pintu crypto: 4 U.S. Economic Indicators This Week That Could Impact the Crypto Market!</h3>
+                        <div class="news-source">pintu crypto</div>
+                        <div class="news-content">Article from pintu crypto: 4 U.S. Economic Indicators This Week That Could Impact the Crypto Market!</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>Fed FOMC Meeting June 18: No Rate Cut Expected, Impact on Bitcoin and Crypto Market - Blockchain News | Article from Blockchain News: Fed FOMC Meeting June 18: No Rate Cut Expected, Impact on Bitcoin and Crypto Market</h3>
+                        <div class="news-source">Blockchain News</div>
+                        <div class="news-content">Article from Blockchain News: Fed FOMC Meeting June 18: No Rate Cut Expected, Impact on Bitcoin and Crypto Market</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>2025 film festivals and markets calendar: latest dates - Screen Daily | Article from Screen Daily: 2025 film festivals and markets calendar: latest dates</h3>
+                        <div class="news-source">Screen Daily</div>
+                        <div class="news-content">Article from Screen Daily: 2025 film festivals and markets calendar: latest dates</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>Indian stock market sector-wise performance today - June 03, 2025 - Editorji | Article from Editorji: Indian stock market sector-wise performance today</h3>
+                        <div class="news-source">Editorji</div>
+                        <div class="news-content">Article from Editorji: Indian stock market sector-wise performance today</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>This PSU bank stock hit all-time high today; up 19% this year, what next? - Business Standard | Article from Business Standard: This PSU bank stock hit all-time high today; up 19% this year, what next?</h3>
+                        <div class="news-source">Business Standard</div>
+                        <div class="news-content">Article from Business Standard: This PSU bank stock hit all-time high today; up 19% this year, what next?</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>Redmi Watch Move review: Redmi Watch Move review: Stands out in a sea of budget smartwatches | Article summary extraction not implemented for non-Google News URLs</h3>
+                        <div class="news-source">2m</div>
+                        <div class="news-content">Article summary extraction not implemented for non-Google News URLs</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>Indian Green Stocks June 3- Stocks Struggle As Market Sneezes - Saur Energy International | Article from Saur Energy International: Indian Green Stocks June 3- Stocks Struggle As Market Sneezes</h3>
+                        <div class="news-source">Saur Energy International</div>
+                        <div class="news-content">Article from Saur Energy International: Indian Green Stocks June 3- Stocks Struggle As Market Sneezes</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>Why is the stock market falling today? Sensex tanks 700 pts, Nifty slips below 24,550 — 6 key reasons behi - The Economic Times | Article from The Economic Times: Why is the stock market falling today? Sensex tanks 700 pts, Nifty slips below 24,550 — 6 key reasons behi</h3>
+                        <div class="news-source">The Economic Times</div>
+                        <div class="news-content">Article from The Economic Times: Why is the stock market falling today? Sensex tanks 700 pts, Nifty slips below 24,550 — 6 key reasons behi</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>Why the stock market fell today? Sensex tanks 636 pts, Nifty below 24,550 — 6 key reasons behind the decli - The Economic Times | Article from The Economic Times: Why the stock market fell today? Sensex tanks 636 pts, Nifty below 24,550 — 6 key reasons behind the decli</h3>
+                        <div class="news-source">The Economic Times</div>
+                        <div class="news-content">Article from The Economic Times: Why the stock market fell today? Sensex tanks 636 pts, Nifty below 24,550 — 6 key reasons behind the decli</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>Technical Analysis: 3 Stocks that are currently trading in oversold zone with RSI less than 30 - Trade Brains | Article from Trade Brains: Technical Analysis: 3 Stocks that are currently trading in oversold zone with RSI less than 30</h3>
+                        <div class="news-source">Trade Brains</div>
+                        <div class="news-content">Article from Trade Brains: Technical Analysis: 3 Stocks that are currently trading in oversold zone with RSI less than 30</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="news-card neutral-item">
+                        <h3>Nifty June futures trade at premium - Business Standard | Article title: Cbmiuafbvv95Cuxocdjfbu5Hmlbbzku5Axjzrznmqi1Tzzn1X3Bwtndszgtyytz4Wlpfd0Xiqm0Wbzbfzy1Yzjdbamnywxhmbjbjrxotmkeyx1Ixm1C1Sul1Mwrdvmppdkjoylzwbu4Xogfmetzatdr6Rg1Pvxpnau5Jotbsme5Qcupzvlvjvk5Ia2Rovljpmgpnoehjmxdzs3D5Rwzsmxdlqvjsntayq3Lpbwxxd0Rrbmxlrfrxrejkumre0Gg Aufvx3Lxte1Ysejuylpqsuhiywfjmy1Mlxrwsvvcu1Fxbtlfofpix0Jvn3Jnedzfvgrcmutzm2Nxzvhuretjogo0T19Fvlpns1Vkzzhwzlrxnwjmywpxcnfbdy13Slg3Rc1Zwxnjrxv2Wgfdrkniuwjldv8Zaxhoqze4Veqxq3Frewvmwnhbx195Bthtavozseddrmfyrlrhzwzobjnuzepswmnuegrhy284Oxvzcflsowfnsc1Loe5Logxgr0E</h3>
+                        <div class="news-source">Business Standard</div>
+                        <div class="news-content">Article title: Cbmiuafbvv95Cuxocdjfbu5Hmlbbzku5Axjzrznmqi1Tzzn1X3Bwtndszgtyytz4Wlpfd0Xiqm0Wbzbfzy1Yzjdbamnywxhmbjbjrxotmkeyx1Ixm1C1Sul1Mwrdvmppdkjoylzwbu4Xogfmetzatdr6Rg1Pvxpnau5Jotbsme5Qcupzvlvjvk5Ia...</div>
+                        <div class="news-stats">
+                            <div>
+                                <span class="news-category neutral">Neutral</span>
+                            </div>
+                            <div>
+                                <span title="Sentiment Score: 0.00">Sentiment: Neutral</span> | 
+                                <span title="Criticality Score: 0.00">Criticality: 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+
+                <div class="footer">
+                    <p>Generated by Market News Analyzer</p>
+                </div>
+            </div>
+
+            <script>
+                // Filter functionality
+                document.addEventListener('DOMContentLoaded', function() {
+                    const filterButtons = document.querySelectorAll('.filter-btn');
+                    const newsCards = document.querySelectorAll('.news-card');
+                    const newsCount = document.getElementById('news-count');
+
+                    filterButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            // Remove active class from all buttons
+                            filterButtons.forEach(btn => btn.classList.remove('active'));
+
+                            // Add active class to clicked button
+                            this.classList.add('active');
+
+                            // Get filter value
+                            const filterValue = this.getAttribute('data-filter');
+
+                            // Filter news cards
+                            let visibleCount = 0;
+                            newsCards.forEach(card => {
+                                if (filterValue === 'all') {
+                                    card.style.display = 'flex';
+                                    visibleCount++;
+                                } else if (filterValue === 'positive' && card.classList.contains('positive-item')) {
+                                    card.style.display = 'flex';
+                                    visibleCount++;
+                                } else if (filterValue === 'negative' && card.classList.contains('negative-item')) {
+                                    card.style.display = 'flex';
+                                    visibleCount++;
+                                } else if (filterValue === 'neutral' && card.classList.contains('neutral-item')) {
+                                    card.style.display = 'flex';
+                                    visibleCount++;
+                                } else if (filterValue === 'critical' && card.classList.contains('critical-item')) {
+                                    card.style.display = 'flex';
+                                    visibleCount++;
+                                } else {
+                                    card.style.display = 'none';
+                                }
+                            });
+
+                            // Update count
+                            newsCount.textContent = `(${visibleCount} items)`;
+                        });
+                    });
+                });
+            </script>
+        </body>
+        </html>
+        
