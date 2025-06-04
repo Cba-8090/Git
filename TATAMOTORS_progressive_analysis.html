@@ -1,0 +1,489 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+            <title>Progressive Analysis: TATAMOTORS</title>
+            <!-- Include Plotly.js from CDN -->
+            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+                .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
+                .header { background-color: #2C3E50; color: white; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+                .alert-box { background-color: #F7DC6F; padding: 15px; margin-bottom: 20px; border-radius: 5px; color: white; }
+                .buzzer-info { background-color: #2980B9; padding: 15px; margin-bottom: 20px; border-radius: 5px; color: white; }
+                .chart-container { height: 350px; margin-bottom: 30px; }
+                .data-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                .data-table th { background-color: #f2f2f2; }
+                .data-table tr:nth-child(even) { background-color: #f9f9f9; }
+                .section { margin-bottom: 30px; }
+                .summary-box { background-color: #eee; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+
+                /* Mobile optimizations */
+                @media (max-width: 768px) {
+                    .chart-container { height: 400px; }
+                    .data-table { font-size: 0.9rem; }
+                    .data-table th, .data-table td { padding: 6px; }
+                    h1 { font-size: 1.5rem; }
+                    h2 { font-size: 1.3rem; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>TATAMOTORS - Progressive Analysis</h1>
+                    <p>Sector: Automobile and Auto Components</p>
+                    <p>Analysis Date: 2025-06-03</p>
+                </div>
+
+                
+
+                <div class="alert-box">
+                    <h2>ALERT: YELLOW</h2>
+                    <p>CAUTION: Significant view changes detected</p>
+                    
+                </div>
+
+                <div class="section">
+                    <h2>Summary</h2>
+                    <div class="summary-box">
+                        <p><strong>Initial View:</strong> ACCUMULATION (trending toward LONG)</p>
+                        <p><strong>Current View:</strong> NEUTRAL</p>
+                        <p><strong>Trend Direction:</strong> DETERIORATING</p>
+                        <p><strong>Sentiment Volatility:</strong> 4 changes</p>
+                        <p><strong>Current Pattern:</strong> PATTERN 0: No clear pattern identified</p>
+                        <p><strong>Latest Close Price:</strong> 704.3</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Interactive Progression Charts</h2>
+                    <div id="sentiment-price-chart" class="chart-container"></div>
+                    <div id="flow-indicators-chart" class="chart-container"></div>
+                    <div id="vix-chart" class="chart-container"></div>
+                </div>
+
+                
+                <div class="section">
+                    <h2>Significant View Changes</h2>
+                    <table class="data-table">
+                        <tr>
+                            <th>Date</th>
+                            <th>From</th>
+                            <th>To</th>
+                        </tr>
+            
+                        <tr>
+                            <td>2025-05-02</td>
+                            <td>ACCUMULATION (trending toward LONG)</td>
+                            <td>NEUTRAL</td>
+                        </tr>
+                
+                        <tr>
+                            <td>2025-05-07</td>
+                            <td>NEUTRAL</td>
+                            <td>SHORT</td>
+                        </tr>
+                
+                        <tr>
+                            <td>2025-05-09</td>
+                            <td>SHORT</td>
+                            <td>ACCUMULATION (trending toward LONG)</td>
+                        </tr>
+                
+                        <tr>
+                            <td>2025-06-02</td>
+                            <td>ACCUMULATION (trending toward LONG)</td>
+                            <td>NEUTRAL</td>
+                        </tr>
+                
+                    </table>
+                </div>
+            
+                
+                <div class="section">
+                    <h2>Latest Analysis</h2>
+                    <p>TATAMOTORS: NEUTRAL stance with FII neutral. Pattern 0 suggests transition phase. Mixed trend - no clear direction. Wait for clearer signals within 1-2 months (lower confidence). Signal strength: LOW.</p>
+                </div>
+            
+                
+            <div class="section">
+                <h2>Historical Data</h2>
+                <table class="data-table">
+                    <tr>
+                        <th>Date</th>
+                        <th>Sentiment</th>
+                        <th>Primary Signal</th>
+                        <th>Pattern</th>
+                        <th>Close Price</th>
+                    </tr>
+        
+                    <tr>
+                        <td>2025-06-03</td>
+                        <td>NEUTRAL</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 0: No clear pattern identified</td>
+                        <td>704.3</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-06-02</td>
+                        <td>NEUTRAL</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 0: No clear pattern identified</td>
+                        <td>711.55</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-30</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>718.65</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-29</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>725.45</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-28</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>717.25</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-27</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>717.0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-26</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>729.2</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-23</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>718.0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-22</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>718.5</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-21</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>726.25</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-20</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>720.7</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-19</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>728.7</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-16</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>731.1</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-15</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>700.2</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-14</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>700.2</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-13</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>708.3</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-12</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>719.7</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-09</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>DII flows (momentum, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>709.0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-08</td>
+                        <td>SHORT</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>680.4</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-07</td>
+                        <td>SHORT</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 9: Smart Money Leading - FII buying, retail selling, price rising</td>
+                        <td>681.8</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-06</td>
+                        <td>NEUTRAL</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 0: No clear pattern identified</td>
+                        <td>647.55</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-05</td>
+                        <td>NEUTRAL</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 0: No clear pattern identified</td>
+                        <td>662.2</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-05-02</td>
+                        <td>NEUTRAL</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 0: No clear pattern identified</td>
+                        <td>652.0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-30</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 15: FII-Price Divergence Bullish - FII buying despite price falling</td>
+                        <td>643.5</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-28</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 15: FII-Price Divergence Bullish - FII buying despite price falling</td>
+                        <td>668.0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-25</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 15: FII-Price Divergence Bullish - FII buying despite price falling</td>
+                        <td>654.15</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-24</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 15: FII-Price Divergence Bullish - FII buying despite price falling</td>
+                        <td>667.9</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-23</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 15: FII-Price Divergence Bullish - FII buying despite price falling</td>
+                        <td>658.85</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-22</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>630.5</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-21</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>630.25</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-18</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>621.0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-17</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>621.0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-16</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>616.1</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-15</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>622.5</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-14</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>596.0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-11</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>596.0</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-10</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>584.5</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-09</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>584.5</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-08</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>589.9</td>
+                    </tr>
+            
+                    <tr>
+                        <td>2025-04-07</td>
+                        <td>ACCUMULATION (trending toward LONG)</td>
+                        <td>FII flows (contrarian, 2.0 month lag)</td>
+                        <td>PATTERN 8: FII-DII Bearish Divergence - FII selling while DII buying</td>
+                        <td>581.1</td>
+                    </tr>
+            
+                </table>
+            </div>
+        
+
+                <div class="section">
+                    <p><a href="#" onclick="window.history.back(); return false;">Back to Summary Report</a></p>
+                </div>
+            </div>
+
+            <script>
+                // Parse the Plotly figure data
+                const sentimentPriceFigure = {"data": [{"hovertemplate": "Date: %{x}<br>Score: %{y}<br>Sentiment: %{text}<extra></extra>", "marker": {"color": ["#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#F7DC6F", "#F7DC6F", "#F7DC6F", "#C0392B", "#C0392B", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#82E0AA", "#F7DC6F", "#F7DC6F"]}, "name": "Sentiment", "text": ["ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "NEUTRAL", "NEUTRAL", "NEUTRAL", "SHORT", "SHORT", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "ACCUMULATION (trending toward LONG)", "NEUTRAL", "NEUTRAL"], "x": ["2025-04-07", "2025-04-08", "2025-04-09", "2025-04-10", "2025-04-11", "2025-04-14", "2025-04-15", "2025-04-16", "2025-04-17", "2025-04-18", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-28", "2025-04-30", "2025-05-02", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-06-02", "2025-06-03"], "y": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, -2, -2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0], "type": "bar"}, {"hovertemplate": "Date: %{x}<br>Price: \u20b9%{y:.2f}<extra></extra>", "line": {"color": "black", "width": 2}, "name": "Price", "x": ["2025-04-07", "2025-04-08", "2025-04-09", "2025-04-10", "2025-04-11", "2025-04-14", "2025-04-15", "2025-04-16", "2025-04-17", "2025-04-18", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-28", "2025-04-30", "2025-05-02", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-06-02", "2025-06-03"], "y": [581.1, 589.9, 584.5, 584.5, 596.0, 596.0, 622.5, 616.1, 621.0, 621.0, 630.25, 630.5, 658.85, 667.9, 654.15, 668.0, 643.5, 652.0, 662.2, 647.55, 681.8, 680.4, 709.0, 719.7, 708.3, 700.2, 700.2, 731.1, 728.7, 720.7, 726.25, 718.5, 718.0, 729.2, 717.0, 717.25, 725.45, 718.65, 711.55, 704.3], "yaxis": "y2", "type": "scatter"}], "layout": {"template": {"data": {"histogram2dcontour": [{"type": "histogram2dcontour", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "choropleth": [{"type": "choropleth", "colorbar": {"outlinewidth": 0, "ticks": ""}}], "histogram2d": [{"type": "histogram2d", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "heatmap": [{"type": "heatmap", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "heatmapgl": [{"type": "heatmapgl", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "contourcarpet": [{"type": "contourcarpet", "colorbar": {"outlinewidth": 0, "ticks": ""}}], "contour": [{"type": "contour", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "surface": [{"type": "surface", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "mesh3d": [{"type": "mesh3d", "colorbar": {"outlinewidth": 0, "ticks": ""}}], "scatter": [{"fillpattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}, "type": "scatter"}], "parcoords": [{"type": "parcoords", "line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatterpolargl": [{"type": "scatterpolargl", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}, "pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "bar"}], "scattergeo": [{"type": "scattergeo", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatterpolar": [{"type": "scatterpolar", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "histogram": [{"marker": {"pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "histogram"}], "scattergl": [{"type": "scattergl", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatter3d": [{"type": "scatter3d", "line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scattermapbox": [{"type": "scattermapbox", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatterternary": [{"type": "scatterternary", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scattercarpet": [{"type": "scattercarpet", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}, "pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "barpolar"}], "pie": [{"automargin": true, "type": "pie"}]}, "layout": {"autotypenumbers": "strict", "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "hovermode": "closest", "hoverlabel": {"align": "left"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"bgcolor": "#E5ECF6", "angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "ternary": {"bgcolor": "#E5ECF6", "aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]]}, "xaxis": {"gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "automargin": true, "zerolinewidth": 2}, "yaxis": {"gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "automargin": true, "zerolinewidth": 2}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white", "gridwidth": 2}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white", "gridwidth": 2}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white", "gridwidth": 2}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "geo": {"bgcolor": "white", "landcolor": "#E5ECF6", "subunitcolor": "white", "showland": true, "showlakes": true, "lakecolor": "white"}, "title": {"x": 0.05}, "mapbox": {"style": "light"}}}, "annotations": [{"showarrow": false, "text": "\u20b9581.10", "x": "2025-04-07", "xshift": 5, "y": 581.1, "yref": "y2", "yshift": 10}, {"showarrow": false, "text": "\u20b9704.30 (+21.20%)", "x": "2025-06-03", "xanchor": "right", "xshift": -5, "y": 704.3, "yref": "y2", "yshift": 10}], "yaxis": {"title": {"text": "Sentiment"}, "tickvals": [-2, -1, 0, 1, 2], "ticktext": ["SHORT", "DISTRIBUTION", "NEUTRAL", "ACCUMULATION", "LONG"], "range": [-2.5, 2.5], "domain": [0, 0.85], "showgrid": true, "gridcolor": "rgba(0,0,0,0.1)"}, "xaxis": {"title": {"text": "Date"}, "showgrid": true, "gridcolor": "rgba(0,0,0,0.1)"}, "title": {"text": "Sentiment Evolution and Price Movement"}, "yaxis2": {"title": {"text": "Price (\u20b9)", "font": {"color": "black"}}, "tickfont": {"color": "black"}, "overlaying": "y", "side": "right", "showgrid": false, "range": [569.4780000000001, 745.722]}, "legend": {"orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "center", "x": 0.5}, "margin": {"l": 50, "r": 50, "b": 50, "t": 50, "pad": 4}, "font": {"family": "Arial, sans-serif"}, "hovermode": "x unified", "height": 350}};
+                const flowFigure = {"data": [{"hovertemplate": "Date: %{x}<br>FII: %{y}<extra></extra>", "line": {"color": "blue", "width": 2}, "marker": {"size": 8, "symbol": "circle"}, "mode": "lines+markers", "name": "FII", "x": ["2025-04-07", "2025-04-08", "2025-04-09", "2025-04-10", "2025-04-11", "2025-04-14", "2025-04-15", "2025-04-16", "2025-04-17", "2025-04-18", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-28", "2025-04-30", "2025-05-02", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-06-02", "2025-06-03"], "y": [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 1, 1, 1, 1, -1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, -1], "type": "scatter"}, {"hovertemplate": "Date: %{x}<br>DII: %{y}<extra></extra>", "line": {"color": "green", "dash": "dash", "width": 2}, "marker": {"size": 8, "symbol": "square"}, "mode": "lines+markers", "name": "DII", "x": ["2025-04-07", "2025-04-08", "2025-04-09", "2025-04-10", "2025-04-11", "2025-04-14", "2025-04-15", "2025-04-16", "2025-04-17", "2025-04-18", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-28", "2025-04-30", "2025-05-02", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-06-02", "2025-06-03"], "y": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], "type": "scatter"}, {"hovertemplate": "Date: %{x}<br>Retail: %{y}<extra></extra>", "line": {"color": "red", "dash": "dot", "width": 2}, "marker": {"size": 8, "symbol": "triangle-up"}, "mode": "lines+markers", "name": "Retail", "x": ["2025-04-07", "2025-04-08", "2025-04-09", "2025-04-10", "2025-04-11", "2025-04-14", "2025-04-15", "2025-04-16", "2025-04-17", "2025-04-18", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-28", "2025-04-30", "2025-05-02", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-06-02", "2025-06-03"], "y": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1, 1, 1, 1, 1, 1, -1, 1, 1, 1, 1, 0, 0], "type": "scatter"}], "layout": {"template": {"data": {"histogram2dcontour": [{"type": "histogram2dcontour", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "choropleth": [{"type": "choropleth", "colorbar": {"outlinewidth": 0, "ticks": ""}}], "histogram2d": [{"type": "histogram2d", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "heatmap": [{"type": "heatmap", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "heatmapgl": [{"type": "heatmapgl", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "contourcarpet": [{"type": "contourcarpet", "colorbar": {"outlinewidth": 0, "ticks": ""}}], "contour": [{"type": "contour", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "surface": [{"type": "surface", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "mesh3d": [{"type": "mesh3d", "colorbar": {"outlinewidth": 0, "ticks": ""}}], "scatter": [{"fillpattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}, "type": "scatter"}], "parcoords": [{"type": "parcoords", "line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatterpolargl": [{"type": "scatterpolargl", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}, "pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "bar"}], "scattergeo": [{"type": "scattergeo", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatterpolar": [{"type": "scatterpolar", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "histogram": [{"marker": {"pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "histogram"}], "scattergl": [{"type": "scattergl", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatter3d": [{"type": "scatter3d", "line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scattermapbox": [{"type": "scattermapbox", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatterternary": [{"type": "scatterternary", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scattercarpet": [{"type": "scattercarpet", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}, "pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "barpolar"}], "pie": [{"automargin": true, "type": "pie"}]}, "layout": {"autotypenumbers": "strict", "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "hovermode": "closest", "hoverlabel": {"align": "left"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"bgcolor": "#E5ECF6", "angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "ternary": {"bgcolor": "#E5ECF6", "aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]]}, "xaxis": {"gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "automargin": true, "zerolinewidth": 2}, "yaxis": {"gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "automargin": true, "zerolinewidth": 2}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white", "gridwidth": 2}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white", "gridwidth": 2}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white", "gridwidth": 2}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "geo": {"bgcolor": "white", "landcolor": "#E5ECF6", "subunitcolor": "white", "showland": true, "showlakes": true, "lakecolor": "white"}, "title": {"x": 0.05}, "mapbox": {"style": "light"}}}, "shapes": [{"fillcolor": "gray", "layer": "below", "line": {"width": 0}, "opacity": 0.1, "type": "rect", "x0": "2025-04-07", "x1": "2025-06-03", "y0": -0.1, "y1": 0.1}], "yaxis": {"title": {"text": "Flow Direction"}, "tickvals": [-1, 0, 1], "ticktext": ["Negative", "Neutral", "Positive"], "range": [-1.5, 1.5], "showgrid": true, "gridcolor": "rgba(0,0,0,0.1)"}, "xaxis": {"title": {"text": "Date"}, "showgrid": true, "gridcolor": "rgba(0,0,0,0.1)"}, "title": {"text": "Institutional Flow Indicators"}, "legend": {"orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "center", "x": 0.5}, "margin": {"l": 50, "r": 50, "b": 50, "t": 50, "pad": 4}, "font": {"family": "Arial, sans-serif"}, "hovermode": "x unified", "height": 350}};
+                const vixFigure = {"data": [{"hovertemplate": "Date: %{x}<br>VIX: %{y:.2f}<extra></extra>", "line": {"color": "red", "width": 2}, "name": "VIX", "x": ["2025-04-07", "2025-04-08", "2025-04-09", "2025-04-11", "2025-04-15", "2025-04-16", "2025-04-17", "2025-04-21", "2025-04-22", "2025-04-23", "2025-04-24", "2025-04-25", "2025-04-28", "2025-04-30", "2025-05-02", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-06-02", "2025-06-03"], "y": [22.79, 20.44, 21.43, 20.11, 16.13, 15.87, 15.47, 15.52, 15.23, 15.96, 16.25, 17.16, 16.94, 18.22, 18.26, 18.34, 19.0, 19.06, 18.39, 18.2, 17.23, 16.89, 16.55, 17.36, 17.39, 17.55, 17.26, 17.28, 18.02, 18.54, 18.02, 16.42, 16.08, 17.16, 16.56], "type": "scatter"}, {"hovertemplate": "Date: %{x}<br>VIX: %{y:.2f} (High)<extra></extra>", "marker": {"color": "red", "size": 10}, "mode": "markers", "name": "High VIX", "x": ["2025-04-07", "2025-04-08", "2025-04-09", "2025-04-11"], "y": [22.79, 20.44, 21.43, 20.11], "type": "scatter"}, {"fill": "toself", "fillcolor": "rgba(255,0,0,0.2)", "hoverinfo": "none", "line": {"color": "rgba(255,0,0,0)"}, "showlegend": false, "x": ["2025-04-07", "2025-04-08", "2025-04-09", "2025-04-11", "2025-04-11", "2025-04-09", "2025-04-08", "2025-04-07"], "y": [22.79, 20.44, 21.43, 20.11, 20, 20, 20, 20], "type": "scatter"}], "layout": {"template": {"data": {"histogram2dcontour": [{"type": "histogram2dcontour", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "choropleth": [{"type": "choropleth", "colorbar": {"outlinewidth": 0, "ticks": ""}}], "histogram2d": [{"type": "histogram2d", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "heatmap": [{"type": "heatmap", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "heatmapgl": [{"type": "heatmapgl", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "contourcarpet": [{"type": "contourcarpet", "colorbar": {"outlinewidth": 0, "ticks": ""}}], "contour": [{"type": "contour", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "surface": [{"type": "surface", "colorbar": {"outlinewidth": 0, "ticks": ""}, "colorscale": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]]}], "mesh3d": [{"type": "mesh3d", "colorbar": {"outlinewidth": 0, "ticks": ""}}], "scatter": [{"fillpattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}, "type": "scatter"}], "parcoords": [{"type": "parcoords", "line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatterpolargl": [{"type": "scatterpolargl", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "bar": [{"error_x": {"color": "#2a3f5f"}, "error_y": {"color": "#2a3f5f"}, "marker": {"line": {"color": "#E5ECF6", "width": 0.5}, "pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "bar"}], "scattergeo": [{"type": "scattergeo", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatterpolar": [{"type": "scatterpolar", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "histogram": [{"marker": {"pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "histogram"}], "scattergl": [{"type": "scattergl", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatter3d": [{"type": "scatter3d", "line": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scattermapbox": [{"type": "scattermapbox", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scatterternary": [{"type": "scatterternary", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "scattercarpet": [{"type": "scattercarpet", "marker": {"colorbar": {"outlinewidth": 0, "ticks": ""}}}], "carpet": [{"aaxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "baxis": {"endlinecolor": "#2a3f5f", "gridcolor": "white", "linecolor": "white", "minorgridcolor": "white", "startlinecolor": "#2a3f5f"}, "type": "carpet"}], "table": [{"cells": {"fill": {"color": "#EBF0F8"}, "line": {"color": "white"}}, "header": {"fill": {"color": "#C8D4E3"}, "line": {"color": "white"}}, "type": "table"}], "barpolar": [{"marker": {"line": {"color": "#E5ECF6", "width": 0.5}, "pattern": {"fillmode": "overlay", "size": 10, "solidity": 0.2}}, "type": "barpolar"}], "pie": [{"automargin": true, "type": "pie"}]}, "layout": {"autotypenumbers": "strict", "colorway": ["#636efa", "#EF553B", "#00cc96", "#ab63fa", "#FFA15A", "#19d3f3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"], "font": {"color": "#2a3f5f"}, "hovermode": "closest", "hoverlabel": {"align": "left"}, "paper_bgcolor": "white", "plot_bgcolor": "#E5ECF6", "polar": {"bgcolor": "#E5ECF6", "angularaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "radialaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "ternary": {"bgcolor": "#E5ECF6", "aaxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "baxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}, "caxis": {"gridcolor": "white", "linecolor": "white", "ticks": ""}}, "coloraxis": {"colorbar": {"outlinewidth": 0, "ticks": ""}}, "colorscale": {"sequential": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "sequentialminus": [[0.0, "#0d0887"], [0.1111111111111111, "#46039f"], [0.2222222222222222, "#7201a8"], [0.3333333333333333, "#9c179e"], [0.4444444444444444, "#bd3786"], [0.5555555555555556, "#d8576b"], [0.6666666666666666, "#ed7953"], [0.7777777777777778, "#fb9f3a"], [0.8888888888888888, "#fdca26"], [1.0, "#f0f921"]], "diverging": [[0, "#8e0152"], [0.1, "#c51b7d"], [0.2, "#de77ae"], [0.3, "#f1b6da"], [0.4, "#fde0ef"], [0.5, "#f7f7f7"], [0.6, "#e6f5d0"], [0.7, "#b8e186"], [0.8, "#7fbc41"], [0.9, "#4d9221"], [1, "#276419"]]}, "xaxis": {"gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "automargin": true, "zerolinewidth": 2}, "yaxis": {"gridcolor": "white", "linecolor": "white", "ticks": "", "title": {"standoff": 15}, "zerolinecolor": "white", "automargin": true, "zerolinewidth": 2}, "scene": {"xaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white", "gridwidth": 2}, "yaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white", "gridwidth": 2}, "zaxis": {"backgroundcolor": "#E5ECF6", "gridcolor": "white", "linecolor": "white", "showbackground": true, "ticks": "", "zerolinecolor": "white", "gridwidth": 2}}, "shapedefaults": {"line": {"color": "#2a3f5f"}}, "annotationdefaults": {"arrowcolor": "#2a3f5f", "arrowhead": 0, "arrowwidth": 1}, "geo": {"bgcolor": "white", "landcolor": "#E5ECF6", "subunitcolor": "white", "showland": true, "showlakes": true, "lakecolor": "white"}, "title": {"x": 0.05}, "mapbox": {"style": "light"}}}, "annotations": [{"showarrow": false, "text": "22.79", "x": "2025-04-07", "xshift": 5, "y": 22.79, "yshift": 10}, {"showarrow": false, "text": "16.56 (-27.34%)", "x": "2025-06-03", "xanchor": "right", "xshift": -5, "y": 16.56, "yshift": 10}], "yaxis": {"title": {"text": "VIX Index"}, "range": [13.707, 25.069000000000003], "showgrid": true, "gridcolor": "rgba(0,0,0,0.1)"}, "xaxis": {"title": {"text": "Date"}, "showgrid": true, "gridcolor": "rgba(0,0,0,0.1)"}, "title": {"text": "Market Volatility (VIX)"}, "legend": {"orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "center", "x": 0.5}, "margin": {"l": 50, "r": 50, "b": 50, "t": 50, "pad": 4}, "font": {"family": "Arial, sans-serif"}, "hovermode": "x unified", "height": 350}};
+
+                // Create responsive config
+                const config = {
+                    responsive: true,
+                    displayModeBar: 'hover',
+                    modeBarButtonsToRemove: ['select2d', 'lasso2d', 'autoScale2d', 'hoverClosestCartesian', 'hoverCompareCartesian'],
+                    toImageButtonOptions: {
+                        format: 'png',
+                        filename: 'TATAMOTORS_analysis',
+                        height: 800,
+                        width: 1200,
+                        scale: 2
+                    }
+                };
+
+                // Create all the Plotly charts
+                document.addEventListener('DOMContentLoaded', function() {
+                    Plotly.newPlot('sentiment-price-chart', sentimentPriceFigure.data, sentimentPriceFigure.layout, config);
+                    Plotly.newPlot('flow-indicators-chart', flowFigure.data, flowFigure.layout, config);
+                    Plotly.newPlot('vix-chart', vixFigure.data, vixFigure.layout, config);
+
+                    // Add resize handler for better responsiveness
+                    window.addEventListener('resize', function() {
+                        Plotly.Plots.resize(document.getElementById('sentiment-price-chart'));
+                        Plotly.Plots.resize(document.getElementById('flow-indicators-chart'));
+                        Plotly.Plots.resize(document.getElementById('vix-chart'));
+                    });
+                });
+            </script>
+        </body>
+        </html>
+        
